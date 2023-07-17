@@ -19,4 +19,23 @@
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash</item>
     </style>
+
+<!--    <style name="rangeslider">-->
+<!--        <layer-list xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--            <item android:id="@android:id/background">-->
+<!--                <shape android:shape="line">-->
+<!--                    <stroke android:width="3dp" android:color="@color/gray01"/>-->
+<!--                </shape>-->
+<!--            </item>-->
+
+<!--            <item android:id="@android:id/progress">-->
+<!--                <clip>-->
+<!--                    <shape android:shape="line">-->
+<!--                        <stroke android:width="3dp" android:color="@color/black"/>-->
+<!--                    </shape>-->
+<!--                </clip>-->
+<!--            </item>-->
+<!--        </layer-list>-->
+<!--    </style>-->
+
 </resources>
