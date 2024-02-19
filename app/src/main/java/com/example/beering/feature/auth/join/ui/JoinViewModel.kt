@@ -1,17 +1,12 @@
-package com.example.beering.feature.auth.join.view
+package com.example.beering.feature.auth.join.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.createSavedStateHandle
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.beering.feature.auth.join.domain.NameValidations
-import com.example.beering.feature.auth.join.domain.PwValidations
+import com.example.beering.feature.auth.join.model.NameValidations
+import com.example.beering.feature.auth.join.model.PwValidations
 import com.example.beering.feature.auth.join.domain.SignupUseCase
 
 class JoinViewModel(

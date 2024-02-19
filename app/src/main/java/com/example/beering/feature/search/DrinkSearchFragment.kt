@@ -125,9 +125,9 @@ class DrinkSearchFragment : Fragment() {
                 var drinkSearchService: DrinkSearchApiService
 
                 // api 연결
-                if(stateLogin(requireContext())){
+                if(stateLogin()){
                     drinkSearchService =
-                        getRetrofit_header(getAccessToken(requireContext()).toString()).create(
+                        getRetrofit_header(getAccessToken().toString()).create(
                             DrinkSearchApiService::class.java)
                 } else {
                     drinkSearchService =

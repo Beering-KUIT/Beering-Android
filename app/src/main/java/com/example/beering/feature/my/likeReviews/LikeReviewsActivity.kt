@@ -23,7 +23,7 @@ class LikeReviewsActivity: BaseActivity<ActivityLikeReviewsBinding>(ActivityLike
             finish()
         }
 
-        val likeReviewsService = getRetrofit_header(getAccessToken(this).toString()).create(
+        val likeReviewsService = getRetrofit_header(getAccessToken().toString()).create(
             ReviewsApiService::class.java)
         likeReviewsService.getReviews().enqueue(object: retrofit2.Callback<ReviewsResponse>{
             override fun onResponse(

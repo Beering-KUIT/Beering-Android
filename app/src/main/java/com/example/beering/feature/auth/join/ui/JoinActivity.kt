@@ -1,4 +1,4 @@
-package com.example.beering.feature.auth.join.view
+package com.example.beering.feature.auth.join.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,26 +7,21 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.beering.feature.auth.login.LoginActivity
 import com.example.beering.R
 import com.example.beering.util.getRetrofit_sync
 import com.example.beering.databinding.ActivityJoinBinding
 import com.example.beering.feature.auth.join.JoinApiService
-import com.example.beering.feature.auth.join.Member
 import com.example.beering.feature.auth.join.MemberAgreements
 import com.example.beering.feature.auth.join.MemberResponse
-import com.example.beering.feature.auth.join.domain.SignupUseCase
+import com.example.beering.util.BaseActivity
 import retrofit2.Call
 import retrofit2.Response
 
-class JoinActivity: AppCompatActivity() {
-    lateinit var binding: ActivityJoinBinding
+class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::inflate) {
     private val joinViewModel : JoinViewModel by viewModels { JoinViewModel.Factory }
 
     var idBool:Boolean = false
@@ -45,11 +40,7 @@ class JoinActivity: AppCompatActivity() {
         MemberAgreements("MARKETING", false)
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityJoinBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+    override fun initAfterBinding() {
         binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
             finish()
         }

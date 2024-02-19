@@ -214,7 +214,7 @@ class ReviewWritingActivity: AppCompatActivity() {
 
 
             val reviewWritingService =
-                getRetrofit_header(getAccessToken(this@ReviewWritingActivity).toString()).create(
+                getRetrofit_header(getAccessToken().toString()).create(
                     ReviewWritingApiService::class.java)
 
             val reviewSelectedOptions : MutableList<ReviewSelectedOptions> = ArrayList()

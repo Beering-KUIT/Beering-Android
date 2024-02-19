@@ -36,9 +36,9 @@ class HomeFragment: Fragment() {
         var homeService: ReviewsApiService
 
         // api 연결
-        if(stateLogin(requireContext())){
+        if(stateLogin()){
             homeService =
-                getRetrofit_header(getAccessToken(requireContext()).toString()).create(ReviewsApiService::class.java)
+                getRetrofit_header(getAccessToken().toString()).create(ReviewsApiService::class.java)
         } else {
             homeService =
                 getRetrofit_no_header().create(ReviewsApiService::class.java)

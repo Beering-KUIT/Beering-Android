@@ -1,11 +1,9 @@
-package com.example.beering.feature.auth.join.view
+package com.example.beering.feature.auth.join.ui
 
 import android.content.Intent
 import android.text.Html
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer

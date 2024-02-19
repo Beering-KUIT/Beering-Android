@@ -21,7 +21,7 @@ class MyReviewsActivity : BaseActivity<ActivityMyReviewsBinding>(ActivityMyRevie
             finish()
         }
 
-        val myReviewsService = getRetrofit_header(getAccessToken(this).toString()).create(
+        val myReviewsService = getRetrofit_header(getAccessToken().toString()).create(
             ReviewsApiService::class.java)
         myReviewsService.getReviews().enqueue(object: retrofit2.Callback<ReviewsResponse>{
             override fun onResponse(

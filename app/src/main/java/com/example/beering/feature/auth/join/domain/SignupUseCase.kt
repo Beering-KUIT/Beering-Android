@@ -1,6 +1,9 @@
 package com.example.beering.feature.auth.join.domain
 
-class SignupUseCase {
+import com.example.beering.feature.auth.join.model.NameValidations
+import com.example.beering.feature.auth.join.model.PwValidations
+
+class SignupUseCase() {
 
     suspend operator fun invoke(){
         // TODO : 실제 회원가입 요청 API 호출
@@ -8,13 +11,14 @@ class SignupUseCase {
 
     suspend fun checkId(id : String){
         // TODO : 아이디 중복체크 API 호출
+//        return repository.checkId(id)
     }
 
     suspend fun checkNickname(name : String){
         // TODO : 닉네임 중복체크 API 호출
     }
 
-    fun validatePw(pw : String, pwAgain : String) : PwValidations{
+    fun validatePw(pw : String, pwAgain : String) : PwValidations {
         // 비밀번호가 영문자를 포함하는지 확인
         val containsEnglishChars = pw.matches(Regex(".*[a-zA-Z].*"))
         // 비밀번호가 특수문자를 포함하는지 확인
@@ -31,7 +35,7 @@ class SignupUseCase {
         return PwValidations(containsEnglishChars,containsSpecialChars, containsNumbers, isLengthValid, isConfirmed, isValid)
     }
 
-    fun validateName(nickname : String) : NameValidations{
+    fun validateName(nickname : String) : NameValidations {
         val containsValidCharacters = nickname.matches(Regex("[a-zA-Zㄱ-ㅎ가-힣0-9]+"))
         val isLengthValid = nickname.length in 1..10
 

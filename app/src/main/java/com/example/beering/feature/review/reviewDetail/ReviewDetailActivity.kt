@@ -39,7 +39,7 @@ class ReviewDetailActivity : BaseActivity<ActivityReviewDetailBinding>(ActivityR
         // reviewId 받아오도록 수정해야 함.
         val reviewId : Int = 2
         val ReviewDetailService =
-            getRetrofit_header(getAccessToken(this).toString()).create(ReviewDetailApiService::class.java)
+            getRetrofit_header(getAccessToken().toString()).create(ReviewDetailApiService::class.java)
         ReviewDetailService.getReviewDetail(reviewId).enqueue(object : retrofit2.Callback<ReviewDetailResponse>{
             override fun onResponse(
                 call: Call<ReviewDetailResponse>,

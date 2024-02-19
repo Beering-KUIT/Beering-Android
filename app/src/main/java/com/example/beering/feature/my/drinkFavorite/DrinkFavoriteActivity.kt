@@ -26,7 +26,7 @@ class DrinkFavoriteActivity : BaseActivity<ActivityDrinkFavoriteBinding>(Activit
         val data : ArrayList<DrinkCover> = ArrayList()
 
         val drinkFavoriteApiService =
-            getRetrofit_header(getAccessToken(this@DrinkFavoriteActivity).toString()).create(
+            getRetrofit_header(getAccessToken().toString()).create(
                 DrinkFavoriteApiService::class.java
             )
         drinkFavoriteApiService.drinkFavorite(getMemberId(this@DrinkFavoriteActivity), null).enqueue(object : retrofit2.Callback<DrinkFavoriteResponse> {

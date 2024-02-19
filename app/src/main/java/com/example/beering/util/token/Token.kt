@@ -24,7 +24,7 @@ fun token(context: Context) {
             val resp = response.body()
             if(resp!!.isSuccess){
                 val userToken = resp!!.jwt
-                setToken(context, userToken)
+                setToken(userToken)
             } else {
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle("토큰 만료")

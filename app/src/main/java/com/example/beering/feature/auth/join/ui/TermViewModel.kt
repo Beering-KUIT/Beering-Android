@@ -1,6 +1,5 @@
-package com.example.beering.feature.auth.join.view
+package com.example.beering.feature.auth.join.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
