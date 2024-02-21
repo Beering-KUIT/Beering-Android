@@ -14,7 +14,7 @@ import com.example.beering.databinding.FragmentHomeBinding
 import com.example.beering.feature.review.reviewDetail.ReviewDetailActivity
 import com.example.beering.util.getAccessToken
 import com.example.beering.util.getRetrofit_header
-import com.example.beering.util.getRetrofit_no_header
+import com.example.beering.util.getRetrofit
 import com.example.beering.util.stateLogin
 import com.example.beering.util.token.token
 import retrofit2.Call
@@ -33,54 +33,47 @@ class HomeFragment: Fragment() {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val recyclerView: RecyclerView = binding.itemHomeRv
 
-        var homeService: ReviewsApiService
-
-        // api 연결
+        var homeService:ReviewsApiService? = null
         if(stateLogin()){
-            homeService =
-                getRetrofit_header(getAccessToken().toString()).create(ReviewsApiService::class.java)
-        } else {
-            homeService =
-                getRetrofit_no_header().create(ReviewsApiService::class.java)
+            homeService = getRetrofit_header(getAccessToken().toString()).create(ReviewsApiService::class.java)
+        }else{
+            homeService = getRetrofit().create(ReviewsApiService::class.java)
         }
 
+        // api 연결
         homeService.getReviews().enqueue(object : retrofit2.Callback<ReviewsResponse>{
             override fun onResponse(
                 call: Call<ReviewsResponse>, response: Response<ReviewsResponse>
             ) {
                 val resp = response.body()
-                if(resp != null){
-                    if(resp!!.isSuccess) {
-                        val reviews = resp.result.content
-                        homeAdapter = HomeAdapter(reviews)
-                        recyclerView.adapter = homeAdapter
-                        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                if(resp!!.isSuccess) {
+                    val reviews = resp.result.content
+                    homeAdapter = HomeAdapter(reviews)
+                    recyclerView.adapter = homeAdapter
+                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-                        homeAdapter!!.setOnItemClickListener(object :
-                            HomeAdapter.OnItemClickListener {
-                            override fun onItemClick(review: ReviewsContent) {
-                                // 리뷰 상세보기 페이지
-                                val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
-                                intent.putExtra("reviewId", review.reviewId)
-                                startActivity(intent)
-                            }
-                        })
-
+                    homeAdapter!!.setOnItemClickListener(object :
+                        HomeAdapter.OnItemClickListener {
+                        override fun onItemClick(review: ReviewsContent) {
+                            // 리뷰 상세보기 페이지
+                            val intent = Intent(requireContext(), ReviewDetailActivity::class.java)
+                            intent.putExtra("reviewId", review.reviewId)
+                            startActivity(intent)
+                        }
+                    })
 
 
-                        homeAdapter!!.setOnLikeClickListener(object:HomeAdapter.OnLikeClickListener {
-                            override fun onButtonClick(position: Int) {
-                                homeAdapter!!.notifyItemChanged(position, "likeChange")
-                            }
-                        })
+
+                    homeAdapter!!.setOnLikeClickListener(object:HomeAdapter.OnLikeClickListener {
+                        override fun onButtonClick(position: Int) {
+                            homeAdapter!!.notifyItemChanged(position, "likeChange")
+                        }
+                    })
 
 
-                    }else {
-                        if(resp.responseCode == 2003) token(requireContext())
-                    }
-
+                }else {
+                    if(resp.responseCode == 2003) token(requireContext())
                 }
-
             }
 
             override fun onFailure(call: Call<ReviewsResponse>, t: Throwable) {

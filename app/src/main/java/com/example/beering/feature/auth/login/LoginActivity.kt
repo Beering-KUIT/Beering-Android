@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.beering.feature.MainActivity
-import com.example.beering.util.getRetrofit_sync
+import com.example.beering.util.getRetrofit
 import com.example.beering.databinding.ActivityLoginBinding
 import com.example.beering.feature.auth.join.ui.JoinActivity
 import com.example.beering.feature.auth.login.LoginActivity.Constants.TAG
@@ -75,6 +75,12 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        binding.loginLookaroundTv.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
 
 
 
@@ -111,7 +117,7 @@ class LoginActivity : AppCompatActivity() {
                             // 로그인 성공시에 대한 로직
 
                             //api 연결
-                            val signInService = getRetrofit_sync().create(LoginApiService::class.java)
+                            val signInService = getRetrofit().create(LoginApiService::class.java)
                             val user =
                                 KakaoLoginRequest(token.idToken!!, token.accessToken, token.refreshToken)
                             signInService.kakaoSignIn(user).enqueue(object : retrofit2.Callback<KakaoLoginResponse> {
@@ -314,7 +320,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun singIn() {
         //api 연결
-        val signInService = getRetrofit_sync().create(LoginApiService::class.java)
+        val signInService = getRetrofit().create(LoginApiService::class.java)
         val user =
             LoginRequest(binding.loginIdEd.text.toString(), binding.loginPasswordEd.text.toString())
         signInService.signIn(user).enqueue(object : retrofit2.Callback<LoginResponse> {

@@ -10,7 +10,7 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.beering.R
-import com.example.beering.util.getRetrofit_sync
+import com.example.beering.util.getRetrofit
 import com.example.beering.databinding.ActivityJoinBinding
 import com.example.beering.feature.auth.join.JoinApiService
 import com.example.beering.feature.auth.join.MemberAgreements
