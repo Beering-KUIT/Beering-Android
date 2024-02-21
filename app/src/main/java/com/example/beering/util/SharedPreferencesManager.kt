@@ -2,40 +2,36 @@ package com.example.beering.util
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beering.BeeringApplication.Companion.mSharedPreferences
 import com.example.beering.util.token.Jwt
 
-
-
-fun changeLogin(context: Context, state : Boolean){
-    val spf = context.getSharedPreferences("login",  AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
+fun changeLogin(state : Boolean){
+//    val spf = context.getSharedPreferences("login",  AppCompatActivity.MODE_PRIVATE)
+    val editor = mSharedPreferences.edit()
 
     editor.putBoolean("isLogin", state)
     editor.apply()
 }
 
-fun stateLogin(context: Context) : Boolean{
-    val spf = context.getSharedPreferences("login",  AppCompatActivity.MODE_PRIVATE)
+fun stateLogin() : Boolean{
+//    val spf = context.getSharedPreferences("login",  AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getBoolean("isLogin", false)!!
-
+    return mSharedPreferences.getBoolean("isLogin", false)
 }
 
-
-
-fun setToken(context: Context, token: Jwt){
-    val spf = context.getSharedPreferences("token",  AppCompatActivity.MODE_PRIVATE)
-    val editor = spf.edit()
+fun setToken(token: Jwt){
+//    val spf = context.getSharedPreferences("token",  AppCompatActivity.MODE_PRIVATE)
+    val editor = mSharedPreferences.edit()
 
     editor.putString("accessToken", token.accessToken)
     editor.putString("refreshToken", token.refreshToken)
     editor.apply()
 }
 
-fun getAccessToken(context: Context) : String?{
-    val spf = context.getSharedPreferences("token",  AppCompatActivity.MODE_PRIVATE)
+fun getAccessToken() : String?{
+//    val spf = context.getSharedPreferences("token",  AppCompatActivity.MODE_PRIVATE)
 
-    return spf.getString("accessToken", "")
+    return mSharedPreferences.getString("accessToken", "")
 
 }
 

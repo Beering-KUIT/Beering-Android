@@ -1,14 +1,11 @@
 package com.example.beering.feature
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.example.beering.databinding.ActivityMainBinding
 import com.example.beering.databinding.ActivitySplashBinding
 import com.example.beering.feature.auth.login.LoginActivity
-import com.example.beering.util.BaseActivity
+import com.example.beering.util.base.BaseActivity
 
 
 class SplashActivity : BaseActivity<ActivitySplashBinding>(ActivitySplashBinding::inflate) {

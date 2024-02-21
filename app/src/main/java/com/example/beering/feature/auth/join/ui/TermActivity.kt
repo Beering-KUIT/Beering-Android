@@ -1,17 +1,17 @@
-package com.example.beering.feature.auth.join.view
+package com.example.beering.feature.auth.join.ui
 
 import android.content.Intent
+import android.os.Build
 import android.text.Html
-import android.util.Log
 import android.view.View
 import android.widget.CheckBox
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.beering.R
 import com.example.beering.databinding.ActivityJoinTermBinding
-import com.example.beering.util.BaseActivity
+import com.example.beering.feature.auth.join.model.UserInfo
+import com.example.beering.util.base.BaseActivity
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import java.io.BufferedReader
 import java.io.IOException
@@ -106,6 +106,10 @@ class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBindi
         // 회원가입 버튼
         binding.termJoinOnIv.setOnClickListener {
             // TODO : 회원가입 요청
+            val id = intent.getStringExtra("id")!!
+            val pw = intent.getStringExtra("pw")!!
+            val name = intent.getStringExtra("name")!!
+            termViewModel.signUp(id, pw, name)
             val mIntent = Intent(this, CompleteActivity::class.java)
             startActivity(mIntent)
         }

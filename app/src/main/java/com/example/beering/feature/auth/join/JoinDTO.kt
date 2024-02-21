@@ -25,8 +25,7 @@ data class MemberResult(
     @SerializedName("message") val message: String,
     @SerializedName("objectName") val objectName: String,
     @SerializedName("errors") val errors: List<MemberErrors>
-
-    )
+)
 
 data class MemberErrors(
     @SerializedName("fieldName") val fieldName: String,

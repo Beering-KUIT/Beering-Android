@@ -1,20 +1,18 @@
-package com.example.beering.util
+package com.example.beering.util.base
 
-import android.app.Activity
-import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.view.WindowCompat
+import androidx.core.view.marginTop
 import androidx.viewbinding.ViewBinding
+import com.example.beering.util.navigationHeight
+import com.example.beering.util.setStatusBarTransparent
+import com.example.beering.util.statusBarHeight
 
 abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T): AppCompatActivity() {
     lateinit var binding: T
@@ -25,15 +23,19 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         super.onCreate(savedInstanceState)
         binding = inflate(layoutInflater)
         setContentView(binding.root)
-        // 상태 바, 네비게이션 높이 만큼 padding 주기
-        binding.root.setPadding(
-            0,
-            this.statusBarHeight(),
-            0,
-            this.navigationHeight()
-        )
         setStatusBarTransparent()
-
+//         상태 바, 네비게이션 높이 만큼 padding 주기
+        binding.root.apply{
+            if (this is ViewGroup){
+                clipToPadding = false
+            }
+            setPadding(
+                0,
+                this@BaseActivity.statusBarHeight(),
+                0,
+                this@BaseActivity.navigationHeight()
+            )
+        }
 
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
 
@@ -62,6 +64,10 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
     fun hideKeyboard(v: View) {
         imm?.hideSoftInputFromWindow(v.windowToken, 0)
     }
+
+//    fun View.ignoreRootPadding(){
+//        marginTop =
+//    }
 
 }
 

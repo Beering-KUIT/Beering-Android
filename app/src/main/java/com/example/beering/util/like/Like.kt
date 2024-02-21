@@ -10,7 +10,7 @@ import retrofit2.Response
 
 fun DrinkLike (context: Context, memberId: Int, drinkId:Int){
     val drinkLikeService =
-        getRetrofit_header(getAccessToken(context).toString()).create(LikeApiService::class.java)
+        getRetrofit_header(getAccessToken().toString()).create(LikeApiService::class.java)
     drinkLikeService.like(memberId,drinkId).enqueue(object : retrofit2.Callback<DrinkLikeResponse> {
         override fun onResponse(
             call: Call<DrinkLikeResponse>,
@@ -53,7 +53,7 @@ fun DrinkLike (context: Context, memberId: Int, drinkId:Int){
 
 fun ReviewLike (context: Context, memberId: Int, reviewId:Int, isUp:Boolean){
     val ReviewLikeService =
-        getRetrofit_header(getAccessToken(context).toString()).create(LikeApiService::class.java)
+        getRetrofit_header(getAccessToken().toString()).create(LikeApiService::class.java)
     ReviewLikeService.reviewlike(memberId,reviewId, isUp).enqueue(object : retrofit2.Callback<DrinkLikeResponse> {
         override fun onResponse(
             call: Call<DrinkLikeResponse>,

@@ -1,6 +1,5 @@
 package com.example.beering.feature
 
-import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -10,7 +9,7 @@ import com.example.beering.feature.home.HomeFragment
 import com.example.beering.feature.my.MyFragment
 import com.example.beering.R
 import com.example.beering.databinding.ActivityMainBinding
-import com.example.beering.util.BaseActivity
+import com.example.beering.util.base.BaseActivity
 import com.kakao.sdk.common.util.Utility
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {

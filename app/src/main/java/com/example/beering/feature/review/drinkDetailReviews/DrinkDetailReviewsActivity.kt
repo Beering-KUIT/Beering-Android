@@ -29,7 +29,7 @@ class DrinkDetailReviewsActivity : AppCompatActivity() {
             fragmentManager.popBackStack()
         }
 
-        val drinkDetailReviewsService = getRetrofit_header(getAccessToken(this).toString()).create(
+        val drinkDetailReviewsService = getRetrofit_header(getAccessToken().toString()).create(
             ReviewsApiService::class.java)
         drinkDetailReviewsService.getReviews().enqueue(object: retrofit2.Callback<ReviewsResponse>{
             override fun onResponse(
