@@ -47,6 +47,7 @@ class BeeringApplication : Application(){
         retrofit =  Retrofit
             .Builder()
             .baseUrl(BASE_URL)
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create()).build()
 
         mSharedPreferences = applicationContext.getSharedPreferences(SPF_TAG, Context.MODE_PRIVATE)

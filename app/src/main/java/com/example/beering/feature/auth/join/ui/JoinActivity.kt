@@ -1,14 +1,12 @@
 package com.example.beering.feature.auth.join.ui
 
 import android.content.Intent
-import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.beering.R
@@ -17,7 +15,7 @@ import com.example.beering.databinding.ActivityJoinBinding
 import com.example.beering.feature.auth.join.JoinApiService
 import com.example.beering.feature.auth.join.MemberAgreements
 import com.example.beering.feature.auth.join.MemberResponse
-import com.example.beering.util.BaseActivity
+import com.example.beering.util.base.BaseActivity
 import retrofit2.Call
 import retrofit2.Response
 
@@ -29,16 +27,6 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
     var nicknameBool:Boolean = false
     var checkbox1Bool:Boolean = false
     var checkbox2Bool:Boolean = false
-
-    // api 연결
-    val joinService = getRetrofit_sync().create(JoinApiService::class.java)
-
-    // 메시지 담을 변수
-    var agreementList: MutableList<MemberAgreements> = mutableListOf(
-        MemberAgreements("SERVICE", false),
-        MemberAgreements("PERSONAL", false),
-        MemberAgreements("MARKETING", false)
-    )
 
     override fun initAfterBinding() {
         binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
@@ -171,54 +159,6 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
                 )
                 binding.joinNicknameIv1.setImageResource(R.drawable.ic_delete_dark)
 
-//              닉네임 중복체크
-                binding.joinNicknameIv22.setOnClickListener {
-                    joinService.checkNicknameValidate(joinViewModel.name.value!!).enqueue(object : retrofit2.Callback<MemberResponse> {
-                        override fun onResponse(
-                            call: Call<MemberResponse>,
-                            response: Response<MemberResponse>,
-                        ) {
-                            val resp = response.body()
-                            if(resp?.isSuccess == true){
-                                val responseCode = resp.responseCode
-                                Log.d("ResponseCode", "API Response Code: $responseCode")
-
-//                                if(resp.responseCode == 2012 ){
-//                                    binding.joinNicknameBar.setBackgroundColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_red
-//                                    ))
-//                                    binding.joinNicknameNotice.setText("이미 사용하고 있는 닉네임이에요")
-//                                    binding.joinNicknameNotice.setTextColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_red
-//                                    ))
-//                                    binding.conditionText.visibility = View.GONE
-//                                    binding.conditionLength2.visibility = View.GONE
-//                                    binding.check5.visibility = View.GONE
-//                                    binding.check6.visibility = View.GONE
-//                                    binding.joinNicknameNotice.visibility = View.VISIBLE
-//                                    nicknameBool = false
-//                                } else {
-//                                    binding.joinNicknameBar.setBackgroundColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_green
-//                                    ))
-//                                    binding.joinNicknameNotice.setText("사용할 수 있는 닉네임이에요")
-//                                    binding.joinNicknameNotice.setTextColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_green
-//                                    ))
-//                                    binding.conditionText.visibility = View.GONE
-//                                    binding.conditionLength2.visibility = View.GONE
-//                                    binding.check5.visibility = View.GONE
-//                                    binding.check6.visibility = View.GONE
-//                                    binding.joinNicknameNotice.visibility = View.VISIBLE
-//                                    nicknameBool = true
-//                                }
-                            }
-                        }
-                        override fun onFailure(call: Call<MemberResponse>, t: Throwable) {
-                            Log.e("APIError", "API Request Failed: ${t.message}", t)
-                        }
-                    })
-                }
             } else {
                 nicknameEdit.setTextColor(
                     ContextCompat.getColor(
@@ -244,7 +184,6 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
                 ))
                 binding.check6.setImageResource(R.drawable.ic_check_light)
                 binding.joinNicknameIv21.visibility = View.VISIBLE
-                binding.joinNicknameIv22.visibility = View.GONE
             }
         })
         joinViewModel.nicknameValidation.observe(this, Observer{
@@ -483,48 +422,9 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
             }
             override fun afterTextChanged(s: Editable?) {}
         })
-        // TODO 아이디 이메일 형식 체크
         binding.joinIdIv22.setOnClickListener {
             // api 연결 후 중복 확인
-            val cleanEmail = joinViewModel.userId.value!!.trim()
-            Log.d("userId", cleanEmail)
-            joinService.checkUserIdValidate(cleanEmail).enqueue(object : retrofit2.Callback<MemberResponse> {
-                override fun onResponse(
-                    call: Call<MemberResponse>,
-                    response: Response<MemberResponse>,
-                ) {
-                    val resp = response.body()
-                    if(resp!=null && resp.isSuccess) {
-                        val responseCode = resp.responseCode
-                        Log.i("checkUserIdValidate/SUCCESS", resp.toString())
-                        Log.d("ResponseCode", "API Response Code: $responseCode")
-//                                if( resp.responseCode == 2011 ){
-//                                    binding.joinIdBar.setBackgroundColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_red
-//                                    ))
-//                                    binding.joinIdNotice.setText("이미 사용하고 있는 아이디예요")
-//                                    binding.joinIdNotice.setTextColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_red
-//                                    ))
-//                                    binding.joinIdNotice.visibility = View.VISIBLE
-//                                    idBool = false
-//                                } else {
-//                                    binding.joinIdBar.setBackgroundColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_green
-//                                    ))
-//                                    binding.joinIdNotice.setText("사용할 수 있는 아이디예요")
-//                                    binding.joinIdNotice.setTextColor(ContextCompat.getColor(this@JoinActivity,
-//                                        R.color.beering_green
-//                                    ))
-//                                    binding.joinIdNotice.visibility = View.VISIBLE
-//                                    idBool = true
-//                                }
-                    }
-                }
-                override fun onFailure(call: Call<MemberResponse>, t: Throwable) {
-                    Log.d("APIError", "API Request Failed: ${t.message}", t)
-                }
-            })
+            joinViewModel.checkId()
         }
 
         // 비밀번호
@@ -601,82 +501,18 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
             binding.joinNicknameEd.text.clear()
             joinViewModel.setName("")
         }
+        // 닉네임 중복체크
+        binding.joinNicknameIv22.setOnClickListener {
+            joinViewModel.checkNickname()
+        }
 
         // 다음 버튼
         binding.joinNextOnIv.setOnClickListener {
-            // TODO : API 로직 수정
-//            val member = Member(joinViewModel. userId.value!!, joinViewModel.password.value!!, joinViewModel.name.value!!, agreementList)
-//
-//            val call = joinService.signUp(member)
-//
-//            call.enqueue(object : retrofit2.Callback<MemberResponse> {
-//                override fun onResponse(call: Call<MemberResponse>, response: Response<MemberResponse>){
-//                    if(response.isSuccessful) {
-//                        val memberResponse = response.body()
-//                        if(memberResponse?.isSuccess == true){
-//                            val intent = Intent(this@JoinActivity, LoginActivity::class.java)
-//                            startActivity(intent)
-//                        } else {
-//                            Toast.makeText(this@JoinActivity, "로그인을 실패하였습니다.",Toast.LENGTH_SHORT)
-//                        }
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<MemberResponse>, t: Throwable) {
-//                    Toast.makeText(this@JoinActivity, "서버에 요청을 실패하였습니다.",Toast.LENGTH_SHORT)
-//                }
-//            })
             val mIntent = Intent(this, TermActivity::class.java)
+            mIntent.putExtra("id", joinViewModel.userId.value)
+            mIntent.putExtra("pw", joinViewModel.password.value)
+            mIntent.putExtra("name", joinViewModel.name.value)
             startActivity(mIntent)
         }
-
     }
-
-    fun validatePasswordAgain(passwordAgain:String, password:String):Boolean {
-        // 비밀번호 일치 조건문
-        if (passwordAgain == password) {
-            binding.joinPasswordAgainBar.setBackgroundColor(
-                ContextCompat.getColor(
-                    this@JoinActivity,
-                    R.color.beering_green
-                )
-            )
-            binding.joinPasswordAgainNotice.setText("비밀번호가 일치해요")
-            binding.joinPasswordAgainNotice.setTextColor(
-                ContextCompat.getColor(
-                    this@JoinActivity,
-                    R.color.beering_green
-                )
-            )
-            binding.joinPasswordAgainNotice.visibility = View.VISIBLE
-
-        } else {
-            binding.joinPasswordAgainBar.setBackgroundColor(
-                ContextCompat.getColor(
-                    this@JoinActivity,
-                    R.color.beering_red
-                )
-            )
-            binding.joinPasswordAgainNotice.setText("비밀번호가 일치하지 않아요")
-            binding.joinPasswordAgainNotice.setTextColor(
-                ContextCompat.getColor(
-                    this@JoinActivity,
-                    R.color.beering_red
-                )
-            )
-            binding.joinPasswordAgainNotice.visibility = View.VISIBLE
-        }
-
-        return (passwordAgain == password)
-    }
-
-    fun validJoin() {
-        // 회원가입 버튼 활성화 그리고 api 연결
-        if(idBool && passwordBool && nicknameBool && checkbox1Bool && checkbox2Bool) {
-            binding.joinNextOffIv.visibility = View.INVISIBLE
-            binding.joinNextOnIv.visibility = View.VISIBLE
-        }
-    }
-
-
 }

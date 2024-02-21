@@ -2,11 +2,8 @@ package com.example.beering.util
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.example.beering.BeeringApplication
 import com.example.beering.BeeringApplication.Companion.mSharedPreferences
 import com.example.beering.util.token.Jwt
-
-
 
 fun changeLogin(state : Boolean){
 //    val spf = context.getSharedPreferences("login",  AppCompatActivity.MODE_PRIVATE)
@@ -19,11 +16,8 @@ fun changeLogin(state : Boolean){
 fun stateLogin() : Boolean{
 //    val spf = context.getSharedPreferences("login",  AppCompatActivity.MODE_PRIVATE)
 
-    return mSharedPreferences.getBoolean("isLogin", false)!!
-
+    return mSharedPreferences.getBoolean("isLogin", false)
 }
-
-
 
 fun setToken(token: Jwt){
 //    val spf = context.getSharedPreferences("token",  AppCompatActivity.MODE_PRIVATE)
@@ -36,7 +30,6 @@ fun setToken(token: Jwt){
 
 fun getAccessToken() : String?{
 //    val spf = context.getSharedPreferences("token",  AppCompatActivity.MODE_PRIVATE)
-
 
     return mSharedPreferences.getString("accessToken", "")
 

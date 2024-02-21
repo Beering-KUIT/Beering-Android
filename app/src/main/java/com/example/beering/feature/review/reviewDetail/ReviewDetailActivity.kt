@@ -1,13 +1,11 @@
 package com.example.beering.feature.review.reviewDetail
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.example.beering.api.*
 import com.example.beering.databinding.ActivityReviewDetailBinding
-import com.example.beering.util.BaseActivity
+import com.example.beering.util.base.BaseActivity
 import com.example.beering.util.getAccessToken
 import com.example.beering.util.getRetrofit_header
 import retrofit2.Call

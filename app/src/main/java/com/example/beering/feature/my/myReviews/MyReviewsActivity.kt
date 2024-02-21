@@ -1,7 +1,5 @@
 package com.example.beering.feature.my.myReviews
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beering.feature.home.ReviewsApiService
@@ -9,7 +7,7 @@ import com.example.beering.feature.home.ReviewsResponse
 import com.example.beering.util.getRetrofit_header
 import com.example.beering.util.getAccessToken
 import com.example.beering.databinding.ActivityMyReviewsBinding
-import com.example.beering.util.BaseActivity
+import com.example.beering.util.base.BaseActivity
 import retrofit2.Call
 import retrofit2.Response
 

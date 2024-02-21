@@ -2,8 +2,6 @@ package com.example.beering.feature.my.drinkFavorite
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.beering.util.data.DrinkFavoriteResponse
 import com.example.beering.util.token.token
@@ -11,7 +9,7 @@ import com.example.beering.util.getAccessToken
 import com.example.beering.util.getMemberId
 import com.example.beering.databinding.ActivityDrinkFavoriteBinding
 import com.example.beering.feature.drink.DrinkDetailActivity
-import com.example.beering.util.BaseActivity
+import com.example.beering.util.base.BaseActivity
 import com.example.beering.util.data.DrinkCover
 import com.example.beering.util.getRetrofit_header
 import retrofit2.Call
