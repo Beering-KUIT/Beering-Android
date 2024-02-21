@@ -13,6 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Beering"
+        android:name=".BeeringApplication"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
@@ -33,9 +34,10 @@
             android:name=".feature.review.reviewDetail.ReviewDetailActivity"
             android:exported="true"></activity>
         <activity android:name=".feature.search.SearchFilterActivity" />
-        <activity android:name=".feature.auth.join.view.JoinActivity" />
-        <activity android:name=".feature.auth.join.view.TermActivity"/>
-        <activity android:name=".feature.auth.join.view.CompleteActivity"/>
+        <activity android:name=".feature.auth.join.ui.JoinActivity"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".feature.auth.join.ui.TermActivity"/>
+        <activity android:name=".feature.auth.join.ui.CompleteActivity"/>
         <activity android:name=".feature.auth.login.LoginActivity" />
         <activity android:name=".feature.my.drinkFavorite.DrinkFavoriteActivity" />
         <activity android:name=".feature.review.reviewWriting.ReviewWritingActivity" />

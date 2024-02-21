@@ -1,21 +1,26 @@
-package com.example.beering.feature.auth.join.view
+package com.example.beering.feature.auth.join.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import androidx.lifecycle.createSavedStateHandle
-import androidx.lifecycle.viewmodel.CreationExtras
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.beering.feature.auth.join.domain.NameValidations
-import com.example.beering.feature.auth.join.domain.PwValidations
+import androidx.lifecycle.viewModelScope
+import com.example.beering.BeeringApplication
+import com.example.beering.data.ApiResult
+import com.example.beering.data.auth.api.UserApi
+import com.example.beering.data.auth.repository.UserRepositoryImpl
+import com.example.beering.data.getResult
+import com.example.beering.data.onError
+import com.example.beering.data.onSuccess
+import com.example.beering.feature.auth.join.model.NameValidations
+import com.example.beering.feature.auth.join.model.PwValidations
 import com.example.beering.feature.auth.join.domain.SignupUseCase
+import com.example.beering.feature.auth.join.domain.UserValidationUseCase
+import kotlinx.coroutines.launch
 
 class JoinViewModel(
-    private val signUp : SignupUseCase
+    private val validation : UserValidationUseCase
 ) : ViewModel() {
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> = _userId
@@ -53,24 +58,23 @@ class JoinViewModel(
 
     fun setPassword(pw : String){
         _password.value = pw
-        _pwValidation.value = signUp.validatePw(pw, passwordAgain.value!!)
+        _pwValidation.value = validation.validatePw(pw, passwordAgain.value!!)
         validNext()
     }
 
     fun setPasswordAgain(pwAgain : String){
         _passwordAgain.value = pwAgain
-        _pwValidation.value = signUp.validatePw(password.value!!, pwAgain)
+        _pwValidation.value = validation.validatePw(password.value!!, pwAgain)
         validNext()
     }
 
     fun setName(name : String){
         _name.value = name
-        _nicknameValidation.value = signUp.validateName(name)
+        _nicknameValidation.value = validation.validateName(name)
         _nicknameCheck.value = DuplicationCheck.PROCEEDING
     }
 
     fun validNext(){
-        Log.d("pwpw", pwValidation.value!!.toString())
         if (pwValidation.value == null){
             return
         }
@@ -80,15 +84,52 @@ class JoinViewModel(
                 && idCheck.value == DuplicationCheck.CHECKED)
     }
 
-    suspend fun checkId(id : String){
-        signUp.checkId(id)
-        // TODO : 중복이면 idcheck = false 아니면 true
+    fun checkId(){
+        // TODO : 이메일 형식인지 정규식 확인
+        val cleanEmail = userId.value!!.trim()
+        Log.d("userId", cleanEmail)
+        viewModelScope.launch {
+            val apiResult = validation.checkId(cleanEmail)
+            Log.d("ususus", apiResult.toString())
+            apiResult
+                .onSuccess {
+                    if (it.isSuccess){
+                        _idCheck.value = DuplicationCheck.CHECKED
+                    } else {
+                        if (it.responseCode == 2011){   // 아이디 중복
+                            _idCheck.value = DuplicationCheck.UNCHECKED
+                        } else {
+                            Log.d("Join CheckId-RequestFail", it.result.toString())
+                        }
+                    }
+                }
+                .onError {
+                    Log.d("Join CheckId-NetworkError", it)
+                }
+        }
+
         validNext()
     }
 
-    suspend fun checkNickname(name : String){
-        signUp.checkNickname(name)
-        // TODO : 중복이면 nicknameCheck = false 아니면 true
+    fun checkNickname(){
+        // TODO : 이름 형식 안맞으면 활성화 x 되게
+        viewModelScope.launch {
+            validation.checkNickname(name.value!!)
+                .onSuccess {
+                    if (it.isSuccess){
+                        _nicknameCheck.value = DuplicationCheck.CHECKED
+                    } else {
+                        if (it.responseCode == 2012){   // 닉네임 중복
+                            _idCheck.value = DuplicationCheck.UNCHECKED
+                        } else {
+                            Log.d("Join CheckNickName-RequestFail", it.result.toString())
+                        }
+                    }
+                }
+                .onError {
+                    Log.d("Join CheckNickName-NetworkError", it)
+                }
+        }
         validNext()
     }
 
@@ -103,10 +144,11 @@ class JoinViewModel(
             override fun <T : ViewModel> create(
                 modelClass: Class<T>,
             ): T {
-                val signupUseCase = SignupUseCase()
+                val userDataSource = BeeringApplication.retrofit.create(UserApi::class.java)
+                val userValidationUseCase = UserValidationUseCase(UserRepositoryImpl(userDataSource))
 
                 return JoinViewModel(
-                    signupUseCase
+                    userValidationUseCase
                 ) as T
             }
         }

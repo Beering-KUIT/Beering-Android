@@ -72,7 +72,7 @@ class DrinkDetailActivity : AppCompatActivity() {
 
     private fun setDrinkDetail(drinkId : Int) {
         val drinkDetailService =
-            getRetrofit_header(getAccessToken(this).toString()).create(DrinkDetailApiService::class.java)
+            getRetrofit_header(getAccessToken().toString()).create(DrinkDetailApiService::class.java)
         drinkDetailService.getDrinkDetail(drinkId).enqueue(object : retrofit2.Callback<DrinkDetailResponse>{
             override fun onResponse(
                 call: Call<DrinkDetailResponse>,

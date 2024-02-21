@@ -34,13 +34,13 @@ class MyFragment : Fragment() {
 
 
         // 로그인 상태에 따른 화면 설정
-        if (stateLogin(requireContext())) {
+        if (stateLogin()) {
             // 로그인 상태일때
 
 
             // api 연결설정
             val myService =
-                getRetrofit_header(getAccessToken(requireContext()).toString()).create(MyApiService::class.java)
+                getRetrofit_header(getAccessToken().toString()).create(MyApiService::class.java)
             myService.getMy().enqueue(object : retrofit2.Callback<MyResponse> {
                 override fun onResponse(
                     call: Call<MyResponse>,

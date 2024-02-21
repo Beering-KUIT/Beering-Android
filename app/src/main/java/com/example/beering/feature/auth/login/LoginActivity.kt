@@ -3,7 +3,6 @@ package com.example.beering.feature.auth.login
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.KeyEvent
@@ -11,13 +10,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
-import com.example.beering.R
 import com.example.beering.feature.MainActivity
 import com.example.beering.util.getRetrofit
 import com.example.beering.databinding.ActivityLoginBinding
-import com.example.beering.feature.auth.join.view.JoinActivity
+import com.example.beering.feature.auth.join.ui.JoinActivity
 import com.example.beering.feature.auth.login.LoginActivity.Constants.TAG
 import com.example.beering.util.changeLogin
 import com.example.beering.util.setMemberId
@@ -134,14 +130,15 @@ class LoginActivity : AppCompatActivity() {
                                         if(resp!!.result.jwtInfo != null){
                                             //기존에 카카오 계정으로 회원가입 했었다면 바로 로그인 처리
                                             val userToken = resp!!.result.jwtInfo
-                                            setToken(this@LoginActivity, userToken)
+//                                            setToken(this@LoginActivity, userToken)
+                                            setToken(userToken)
 
 
                                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                             startActivity(intent)
                                             finish()
-                                            changeLogin(this@LoginActivity, true)
+                                            changeLogin(true)
                                             setMemberId(this@LoginActivity, resp.result.memberId)
                                         }
                                         else {
@@ -334,14 +331,14 @@ class LoginActivity : AppCompatActivity() {
                 val resp = response.body()
                 if (resp!!.isSuccess) {
                     val userToken = resp!!.result.jwtInfo
-                    setToken(this@LoginActivity, userToken)
+                    setToken(userToken)
 
 
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)
                     finish()
-                    changeLogin(this@LoginActivity, true)
+                    changeLogin(true)
                     setMemberId(this@LoginActivity, resp.result.memberId)
 
                 } else {

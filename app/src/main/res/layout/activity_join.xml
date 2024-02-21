@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <include
             layout="@layout/layout_titlebar_with_backbtn"
@@ -54,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:hint=" 아이디를 입력해주세요"
                     android:textSize="14dp"
+                    android:inputType="text"
                     android:imeOptions="actionNext"
                     android:maxLines="1"
                     android:layout_marginTop="7dp"
@@ -371,7 +373,8 @@
                     android:layout_height="wrap_content"
                     android:hint=" 닉네임을 입력해주세요"
                     android:textSize="14dp"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
                     android:layout_marginTop="7dp"
                     android:maxLines="1"
                     android:paddingVertical="3dp"

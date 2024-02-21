@@ -1,4 +1,4 @@
-package com.example.beering.feature.auth.join.domain
+package com.example.beering.feature.auth.join.model
 
 data class NameValidations(
     val characters : Boolean,

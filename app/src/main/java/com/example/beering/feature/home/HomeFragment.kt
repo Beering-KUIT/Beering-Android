@@ -34,8 +34,8 @@ class HomeFragment: Fragment() {
         val recyclerView: RecyclerView = binding.itemHomeRv
 
         var homeService:ReviewsApiService? = null
-        if(stateLogin(requireContext())){
-            homeService = getRetrofit_header(getAccessToken(requireContext()).toString()).create(ReviewsApiService::class.java)
+        if(stateLogin()){
+            homeService = getRetrofit_header(getAccessToken().toString()).create(ReviewsApiService::class.java)
         }else{
             homeService = getRetrofit().create(ReviewsApiService::class.java)
         }
