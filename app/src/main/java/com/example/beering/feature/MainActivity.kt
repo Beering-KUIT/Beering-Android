@@ -10,6 +10,7 @@ import com.example.beering.feature.my.MyFragment
 import com.example.beering.R
 import com.example.beering.databinding.ActivityMainBinding
 import com.example.beering.util.base.BaseActivity
+import com.example.beering.util.ignoreRootPadding
 import com.kakao.sdk.common.util.Utility
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -17,6 +18,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun initAfterBinding() {
         installSplashScreen()
         initBottomNavigation()
+
         Log.d("test", "keyhash : ${Utility.getKeyHash(this)}")
 
     }

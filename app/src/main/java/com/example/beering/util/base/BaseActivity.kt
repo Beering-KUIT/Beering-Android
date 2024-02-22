@@ -7,7 +7,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import androidx.viewbinding.ViewBinding
 import com.example.beering.util.navigationHeight
@@ -15,13 +19,14 @@ import com.example.beering.util.setStatusBarTransparent
 import com.example.beering.util.statusBarHeight
 
 abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater) -> T): AppCompatActivity() {
-    lateinit var binding: T
+    private var _binding: T? = null
+    protected val binding get() = _binding!!
 
     private var imm: InputMethodManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = inflate(layoutInflater)
+        _binding = inflate(layoutInflater)
         setContentView(binding.root)
         setStatusBarTransparent()
 //         상태 바, 네비게이션 높이 만큼 padding 주기
@@ -31,7 +36,7 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
             }
             setPadding(
                 0,
-                this@BaseActivity.statusBarHeight(),
+                0,
                 0,
                 this@BaseActivity.navigationHeight()
             )
@@ -65,10 +70,9 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         imm?.hideSoftInputFromWindow(v.windowToken, 0)
     }
 
-//    fun View.ignoreRootPadding(){
-//        marginTop =
-//    }
-
+    fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }
 
 
