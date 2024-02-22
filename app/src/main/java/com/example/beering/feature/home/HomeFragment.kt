@@ -43,8 +43,8 @@ class HomeFragment: Fragment() {
         }
 
         // statusbar margin 필요한 부분만 추가적으로 매서드 적용
-        binding.homeSearchEt.addStatusMarginTop(requireContext())
-        binding.homeScanIv.addStatusMarginTop(requireContext())
+        binding.homeSearchEt.addStatusBarMarginTop(requireContext())
+        binding.homeScanIv.addStatusBarMarginTop(requireContext())
 
         // api 연결
         homeService.getReviews().enqueue(object : retrofit2.Callback<ReviewsResponse>{

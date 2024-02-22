@@ -53,7 +53,7 @@ fun View.ignoreRootPadding(context : Context){
     layoutParams = param
 }
 
-fun View.addStatusMarginTop(context : Context){
+fun View.addStatusBarMarginTop(context : Context){
     val param = layoutParams as ViewGroup.MarginLayoutParams
     param.setMargins(marginLeft,marginTop + context.statusBarHeight(), marginRight, marginBottom)
     layoutParams = param
