@@ -12,11 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beering.databinding.FragmentHomeBinding
 import com.example.beering.feature.review.reviewDetail.ReviewDetailActivity
-import com.example.beering.util.addStatusMarginTop
+import com.example.beering.util.addStatusBarMarginTop
 import com.example.beering.util.getAccessToken
 import com.example.beering.util.getRetrofit_header
 import com.example.beering.util.getRetrofit
-import com.example.beering.util.ignoreRootPadding
 import com.example.beering.util.stateLogin
 import com.example.beering.util.token.token
 import retrofit2.Call
