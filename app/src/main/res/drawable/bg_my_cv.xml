@@ -117,7 +117,7 @@
     <item>
         <shape>
             <solid android:color="@color/beering_yellow2"/>
-            <stroke android:color="@color/c1"/>
+            <stroke android:color="@color/calendar1"/>
             <stroke android:width="0.5dp" />
             <corners
                 android:radius="20dp"/>

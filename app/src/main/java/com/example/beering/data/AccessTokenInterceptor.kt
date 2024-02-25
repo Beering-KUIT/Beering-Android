@@ -1,5 +1,6 @@
 package com.example.beering.data
 
+import android.util.Log
 import com.example.beering.util.getAccessToken
 import okhttp3.Interceptor
 import okhttp3.Request

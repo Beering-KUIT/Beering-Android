@@ -9,7 +9,7 @@ import com.example.beering.data.auth.dto.JoinResponse
 import com.example.beering.util.base.BaseResponse
 
 interface UserRepository {
-    suspend fun checkId(id : String) : ApiResult<BaseResponse<CheckIdResult>>
-    suspend fun checkNickName(name : String) : ApiResult<BaseResponse<CheckNameResult>>
+    suspend fun checkId(id : String) : ApiResult<CheckIdResult>
+    suspend fun checkNickName(name : String) : ApiResult<CheckNameResult>
     suspend fun requestJoin(joinRequest: JoinRequest) : ApiResult<BaseResponse<JoinResponse>>
 }

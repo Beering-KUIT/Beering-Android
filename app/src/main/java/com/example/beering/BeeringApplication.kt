@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.beering.data.AccessTokenInterceptor
-import com.example.beering.util.HeaderInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -51,13 +50,5 @@ class BeeringApplication : Application(){
             .addConverterFactory(GsonConverterFactory.create()).build()
 
         mSharedPreferences = applicationContext.getSharedPreferences(SPF_TAG, Context.MODE_PRIVATE)
-    }
-
-    fun okHttpClient_header(header: String) : OkHttpClient {
-        val builder = OkHttpClient.Builder()
-        val logging = HttpLoggingInterceptor()
-        logging.level = HttpLoggingInterceptor.Level.BODY
-        builder.addInterceptor(HeaderInterceptor(header))
-        return builder.addInterceptor(logging).build()
     }
 }

@@ -30,10 +30,10 @@
     <color name="graph4">#8DADFF</color>
 
     <!-- 캘린더 -->
-    <color name="c1">#FFEAA0</color>
-    <color name="c2">#FFD338</color>
-    <color name="c3">#FFBB38</color>
-    <color name="c4">#FF9F2E</color>
+    <color name="calendar1">#FFEAA0</color>
+    <color name="calendar2">#FFD338</color>
+    <color name="calendar3">#FFBB38</color>
+    <color name="calendar4">#FF9F2E</color>
 
     <!-- 메인 -->
     <color name="beering_white">#FFFFFFFF</color>
