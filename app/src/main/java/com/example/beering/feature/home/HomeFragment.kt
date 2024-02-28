@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.beering.databinding.FragmentHomeBinding
 import com.example.beering.feature.review.reviewDetail.ReviewDetailActivity
+import com.example.beering.util.addStatusBarMarginTop
 import com.example.beering.util.getAccessToken
 import com.example.beering.util.getRetrofit_header
 import com.example.beering.util.getRetrofit
@@ -39,6 +40,10 @@ class HomeFragment: Fragment() {
         }else{
             homeService = getRetrofit().create(ReviewsApiService::class.java)
         }
+
+        // statusbar margin 필요한 부분만 추가적으로 매서드 적용
+        binding.homeSearchEt.addStatusBarMarginTop(requireContext())
+        binding.homeScanIv.addStatusBarMarginTop(requireContext())
 
         // api 연결
         homeService.getReviews().enqueue(object : retrofit2.Callback<ReviewsResponse>{
