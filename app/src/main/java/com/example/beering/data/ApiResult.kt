@@ -1,20 +1,31 @@
 package com.example.beering.data
 
+import com.example.beering.BeeringApplication
+import com.example.beering.util.base.ApiErrorResponse
 import com.example.beering.util.base.BaseResponse
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 sealed class ApiResult<T> {
     data class Success<T>(val data: T) : ApiResult<T>()
-    data class Fail<T>(val code : Int, val message: String) : ApiResult<T>()
+    data class Fail<T>(val code: Int, val message: String) : ApiResult<T>()
 
     companion object {
         // isSuccess 값에 따라 Success 또는 Fail 객체를 생성하는 정적 메서드
-        fun <T> create(response : Response<BaseResponse<T>>): ApiResult<T> {
+        fun <T> create(response: Response<BaseResponse<T>>): ApiResult<T> {
             return if (response.isSuccessful) {
                 Success(response.body()!!.result!!)
             } else {
-                Fail(response.body()!!.responseCode, response.body()!!.responseMessage)
+                val errorResponse = parseErrorResponse<ApiErrorResponse>(response.errorBody()!!)!!
+                Fail(errorResponse.responseCode, errorResponse.responseMessage)
             }
+        }
+
+        inline fun <reified T> parseErrorResponse(errorBody: ResponseBody): T? {
+            return BeeringApplication.retrofit.responseBodyConverter<T>(
+                T::class.java,
+                T::class.java.annotations
+            ).convert(errorBody)
         }
     }
 }

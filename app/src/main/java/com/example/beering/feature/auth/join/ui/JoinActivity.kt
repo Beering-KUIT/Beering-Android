@@ -35,6 +35,11 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
             finish()
         }
 
+        binding.joinNextOffIv.setOnClickListener {
+            val mIntent = Intent(this, TermActivity::class.java)
+            startActivity(mIntent)
+        }
+
         // 객체 생성
         val userIdEdit = binding.joinIdEd
         val passwordEdit = binding.joinPasswordEd

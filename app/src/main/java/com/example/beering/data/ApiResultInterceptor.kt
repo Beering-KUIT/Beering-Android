@@ -40,7 +40,7 @@ override fun intercept(chain: Interceptor.Chain): Response {
                 response
             }
             // 400 Bad Request, 404 Not Found
-            400, 404 -> {
+            400 -> {
                 val responseError = extractError(response)
                 Log.d("responseee", responseError.toString())
                 // 새로운 응답 객체를 만들어서 실패 결과를 포함시킵니다.

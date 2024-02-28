@@ -14,9 +14,6 @@ class UserRepositoryImpl(private val userApi: UserApi) : UserRepository {
     override suspend fun checkId(id: String): ApiResult<CheckIdResult> {
         val response = userApi.checkUserId(id)
 
-        Log.d("responseeeiei", response.body().toString())
-        Log.d("responseeeiei", response.toString())
-
         return ApiResult.create(response)
 //        Log.d("responseeeiei", response.body().toString())
 //        if (response.isSuccessful) {
@@ -30,8 +27,7 @@ class UserRepositoryImpl(private val userApi: UserApi) : UserRepository {
 
     override suspend fun checkNickName(name: String): ApiResult<CheckNameResult> {
         val response = userApi.checkNickname(name)
-        Log.d("responseeeiei", response.toString())
-        Log.d("responseeeiei", response.body().toString())
+
         return ApiResult.create(response)
 //        Log.d("responseee", response.toString())
 //        if (response.isSuccessful) {
@@ -42,13 +38,14 @@ class UserRepositoryImpl(private val userApi: UserApi) : UserRepository {
 //        return ApiResult.Fail(response.code(), response.message())
     }
 
-    override suspend fun requestJoin(joinRequest: JoinRequest): ApiResult<BaseResponse<JoinResponse>> {
+    override suspend fun requestJoin(joinRequest: JoinRequest): ApiResult<JoinResponse> {
         val response = userApi.signUp(joinRequest)
-        if (response.isSuccessful) {
-            response.body()?.let { it ->
-                return ApiResult.Success(it)
-            }
-        }
-        return ApiResult.Fail(response.code(), response.message())
+        return ApiResult.create(response)
+//        if (response.isSuccessful) {
+//            response.body()?.let { it ->
+//                return ApiResult.Success(it)
+//            }
+//        }
+//        return ApiResult.Fail(response.code(), response.message())
     }
 }

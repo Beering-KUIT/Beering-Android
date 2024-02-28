@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.beering.data.AccessTokenInterceptor
+import com.example.beering.data.ApiResultInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,6 +35,7 @@ class BeeringApplication : Application(){
                 .readTimeout(30000, TimeUnit.MILLISECONDS)
                 .connectTimeout(30000, TimeUnit.MILLISECONDS)
                 .addInterceptor(AccessTokenInterceptor()) // JWT 자동 헤더 전송
+                .addInterceptor(ApiResultInterceptor(this))
                 .build()
         } else {
             OkHttpClient.Builder()

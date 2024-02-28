@@ -1,6 +1,7 @@
 package com.example.beering.feature.auth.join.ui
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -92,12 +93,14 @@ class JoinViewModel(
                 .onSuccess {
                     if (it.available){
                         _idCheck.value = DuplicationCheck.CHECKED
+                    } else {
+                        _idCheck.value = DuplicationCheck.UNCHECKED
                     }
                 }
                 .onFail {code, message ->
                     Log.d("Join CheckId-Fail", message)
                     when(code){
-                        2011 -> _idCheck.value = DuplicationCheck.UNCHECKED     // 아이디 중복
+                        2010 -> Log.d("responseeoeoeo", "아랄아랄")    // 아이디 중복
                     }
                 }
         }

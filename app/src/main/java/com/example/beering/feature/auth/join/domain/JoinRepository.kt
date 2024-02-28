@@ -11,5 +11,5 @@ import com.example.beering.util.base.BaseResponse
 interface UserRepository {
     suspend fun checkId(id : String) : ApiResult<CheckIdResult>
     suspend fun checkNickName(name : String) : ApiResult<CheckNameResult>
-    suspend fun requestJoin(joinRequest: JoinRequest) : ApiResult<BaseResponse<JoinResponse>>
+    suspend fun requestJoin(joinRequest: JoinRequest) : ApiResult<JoinResponse>
 }
