@@ -33,7 +33,7 @@ class HeaderInterceptor constructor(private val token: String) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
-        val token = "Bearer $token"
+        val token = "$token"
         val newRequest = chain.request().newBuilder()
             .addHeader("Authorization", token)
             .build()

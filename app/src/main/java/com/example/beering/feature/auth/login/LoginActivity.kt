@@ -14,6 +14,7 @@ import com.example.beering.feature.MainActivity
 import com.example.beering.util.getRetrofit
 import com.example.beering.databinding.ActivityLoginBinding
 import com.example.beering.feature.auth.join.ui.JoinActivity
+import com.example.beering.feature.auth.join.ui.JoinKakaoActivity
 import com.example.beering.feature.auth.login.LoginActivity.Constants.TAG
 import com.example.beering.util.changeLogin
 import com.example.beering.util.setMemberId
@@ -113,42 +114,63 @@ class LoginActivity : AppCompatActivity() {
                         // 로그인 성공 부분
                         else if (token != null) {
                             Log.d(Constants.TAG, "로그인 성공 ${token.accessToken}")
-                            Toast.makeText(this@LoginActivity, "로그인 성공!", Toast.LENGTH_SHORT).show()
                             // 로그인 성공시에 대한 로직
 
                             //api 연결
                             val signInService = getRetrofit().create(LoginApiService::class.java)
                             val user =
-                                KakaoLoginRequest(token.idToken!!, token.accessToken, token.refreshToken)
-                            signInService.kakaoSignIn(user).enqueue(object : retrofit2.Callback<KakaoLoginResponse> {
-                                override fun onResponse(
-                                    call: Call<KakaoLoginResponse>,
-                                    response: Response<KakaoLoginResponse>
-                                ) {
-                                    val resp = response.body()
-                                    if (resp!!.isSuccess) {
-                                        if(resp!!.result.jwtInfo != null){
-                                            //기존에 카카오 계정으로 회원가입 했었다면 바로 로그인 처리
-                                            val userToken = resp!!.result.jwtInfo
+                                KakaoLoginRequest(
+                                    token.idToken!!,
+                                    token.accessToken,
+                                    token.refreshToken
+                                )
+//                            Log.d("test1", token.idToken!!)
+//                            Log.d("test2", token.accessToken)
+//                            Log.d("test3", token.refreshToken)
+                            signInService.kakaoSignIn(user)
+                                .enqueue(object : retrofit2.Callback<KakaoLoginResponse> {
+                                    override fun onResponse(
+                                        call: Call<KakaoLoginResponse>,
+                                        response: Response<KakaoLoginResponse>
+                                    ) {
+                                        val resp = response.body()
+                                        if (response.isSuccessful) {
+                                            if (resp!!.isSuccess) {
+                                                if (resp!!.responseCode == 1000) {
+                                                    //기존에 카카오 계정으로 회원가입 했었다면 바로 로그인 처리
+                                                    val userToken = resp!!.result.jwtInfo
 //                                            setToken(this@LoginActivity, userToken)
-                                            setToken(userToken)
+                                                    setToken(userToken)
 
 
-                                            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                            startActivity(intent)
-                                            finish()
-                                            changeLogin(true)
-                                            setMemberId(this@LoginActivity, resp.result.memberId)
-                                        }
-                                        else {
-                                            //카카오 계정 인증은 됐지만 회원가입은 아직 미완료
+                                                    val intent = Intent(
+                                                        this@LoginActivity,
+                                                        MainActivity::class.java
+                                                    )
+                                                    intent.flags =
+                                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                                    startActivity(intent)
+                                                    finish()
+                                                    changeLogin(true)
+                                                    setMemberId(
+                                                        this@LoginActivity,
+                                                        resp.result.memberId
+                                                    )
+                                                } else {
+                                                    //카카오 계정 인증은 됐지만 회원가입은 아직 미완료
+                                                    if (resp!!.responseCode == 1000) {
+                                                        val intent = Intent(
+                                                            this@LoginActivity,
+                                                            JoinKakaoActivity::class.java
+                                                        )
+                                                        startActivity(intent)
 
 
-                                        }
+                                                    }
+                                                }
 
 
-                                    } else {
+                                            } else {
 //                                        binding.loginErrorTv.text = resp!!.responseMessage
 //                                        binding.loginErrorTv.visibility = View.VISIBLE
 //                                        binding.loginIdV.setBackgroundColor(
@@ -164,10 +186,27 @@ class LoginActivity : AppCompatActivity() {
 //                                            )
 //                                        )
 
-                                    }
-                                }
+                                            }
+                                        } else {
+                                            Toast.makeText(
+                                                this@LoginActivity,
+                                                "서버 통신 오류 발생",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
 
-                                override fun onFailure(call: Call<KakaoLoginResponse>, t: Throwable) {
+                                            // 임시 테스트
+                                            val intent = Intent(
+                                                this@LoginActivity,
+                                                JoinKakaoActivity::class.java
+                                            )
+                                            startActivity(intent)
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<KakaoLoginResponse>,
+                                        t: Throwable
+                                    ) {
 //                                    binding.loginErrorTv.text = "서버에 요청을 실패하였습니다."
 //                                    binding.loginErrorTv.visibility = View.VISIBLE
 //                                    binding.loginIdV.setBackgroundColor(
@@ -182,9 +221,9 @@ class LoginActivity : AppCompatActivity() {
 //                                            R.color.beering_red
 //                                        )
 //                                    )
-                                }
+                                    }
 
-                            })
+                                })
 
                         }
                     }

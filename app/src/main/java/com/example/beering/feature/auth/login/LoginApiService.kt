@@ -8,6 +8,6 @@ interface LoginApiService {
     @POST("/auth/login")
     fun signIn(@Body loginRequest: LoginRequest): Call<LoginResponse>
 
-    @POST("/oauth/sdk")
+    @POST("/oauth/sdk/login")
     fun kakaoSignIn(@Body kakoLoginRequest: KakaoLoginRequest): Call<KakaoLoginResponse>
 }
