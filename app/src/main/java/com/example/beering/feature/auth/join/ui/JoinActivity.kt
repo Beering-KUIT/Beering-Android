@@ -15,6 +15,7 @@ import com.example.beering.databinding.ActivityJoinBinding
 import com.example.beering.feature.auth.join.JoinApiService
 import com.example.beering.feature.auth.join.MemberAgreements
 import com.example.beering.feature.auth.join.MemberResponse
+import com.example.beering.util.addStatusBarMarginTop
 import com.example.beering.util.base.BaseActivity
 import retrofit2.Call
 import retrofit2.Response
@@ -29,8 +30,14 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
     var checkbox2Bool:Boolean = false
 
     override fun initAfterBinding() {
+        binding.joinHeaderCl.root.addStatusBarMarginTop(this)
         binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
             finish()
+        }
+
+        binding.joinNextOffIv.setOnClickListener {
+            val mIntent = Intent(this, TermActivity::class.java)
+            startActivity(mIntent)
         }
 
         // 객체 생성
