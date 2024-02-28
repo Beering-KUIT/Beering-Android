@@ -1,21 +1,19 @@
 package com.example.beering.feature.auth.join.ui
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.beering.BeeringApplication
-import com.example.beering.data.ApiResult
 import com.example.beering.data.auth.api.UserApi
 import com.example.beering.data.auth.repository.UserRepositoryImpl
-import com.example.beering.data.getResult
-import com.example.beering.data.onError
+import com.example.beering.data.onFail
 import com.example.beering.data.onSuccess
 import com.example.beering.feature.auth.join.model.NameValidations
 import com.example.beering.feature.auth.join.model.PwValidations
-import com.example.beering.feature.auth.join.domain.SignupUseCase
 import com.example.beering.feature.auth.join.domain.UserValidationUseCase
 import kotlinx.coroutines.launch
 
@@ -93,21 +91,19 @@ class JoinViewModel(
             Log.d("ususus", apiResult.toString())
             apiResult
                 .onSuccess {
-                    if (it.isSuccess){
+                    if (it.available){
                         _idCheck.value = DuplicationCheck.CHECKED
                     } else {
-                        if (it.responseCode == 2011){   // 아이디 중복
-                            _idCheck.value = DuplicationCheck.UNCHECKED
-                        } else {
-                            Log.d("Join CheckId-RequestFail", it.result.toString())
-                        }
+                        _idCheck.value = DuplicationCheck.UNCHECKED
                     }
                 }
-                .onError {
-                    Log.d("Join CheckId-NetworkError", it)
+                .onFail {code, message ->
+                    Log.d("Join CheckId-Fail", message)
+                    when(code){
+                        2010 -> Log.d("responseeoeoeo", "아랄아랄")    // 아이디 중복
+                    }
                 }
         }
-
         validNext()
     }
 
@@ -116,18 +112,15 @@ class JoinViewModel(
         viewModelScope.launch {
             validation.checkNickname(name.value!!)
                 .onSuccess {
-                    if (it.isSuccess){
+                    if (it.available){
                         _nicknameCheck.value = DuplicationCheck.CHECKED
-                    } else {
-                        if (it.responseCode == 2012){   // 닉네임 중복
-                            _idCheck.value = DuplicationCheck.UNCHECKED
-                        } else {
-                            Log.d("Join CheckNickName-RequestFail", it.result.toString())
-                        }
                     }
                 }
-                .onError {
-                    Log.d("Join CheckNickName-NetworkError", it)
+                .onFail {code, message ->
+                    Log.d("Join CheckNickName-NetworkError", message)
+                    when (code){
+                        2012 -> _idCheck.value = DuplicationCheck.UNCHECKED     // 닉네임 중복
+                    }
                 }
         }
         validNext()

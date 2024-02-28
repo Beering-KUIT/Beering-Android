@@ -9,7 +9,9 @@ import com.example.beering.feature.home.HomeFragment
 import com.example.beering.feature.my.MyFragment
 import com.example.beering.R
 import com.example.beering.databinding.ActivityMainBinding
+import com.example.beering.feature.archive.ui.ArchiveFragment
 import com.example.beering.util.base.BaseActivity
+import com.example.beering.util.ignoreRootPadding
 import com.kakao.sdk.common.util.Utility
 
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -17,6 +19,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun initAfterBinding() {
         installSplashScreen()
         initBottomNavigation()
+
         Log.d("test", "keyhash : ${Utility.getKeyHash(this)}")
 
     }
@@ -50,7 +53,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                     return@setOnItemSelectedListener true
                 }
                 R.id.menu_archive -> {
-//                    To-do 나의 기록 페이지 만들면 추가
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_frm, ArchiveFragment())
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
                 }
 
             }

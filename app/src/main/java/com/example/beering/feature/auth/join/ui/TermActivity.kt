@@ -19,7 +19,7 @@ import java.io.InputStreamReader
 
 
 class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBinding::inflate) {
-    val termViewModel : TermViewModel by viewModels()
+    val termViewModel : TermViewModel by viewModels { TermViewModel.Factory }
     override fun initAfterBinding() {
 
         termViewModel.curTermIndex.observe(this, Observer {

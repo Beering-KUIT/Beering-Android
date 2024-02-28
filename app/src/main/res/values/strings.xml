@@ -2,10 +2,16 @@
     <string name="app_name">Beering</string>
 
     <!-- 기록 페이지-->
-    <string name="monthly_report">이번 달 리포트</string>
-    <string name="calendar_date">%1$d년  %2$d월</string>
-    <string name="alcohol_calendar">주류 캘린더</string>
-    <string name="alcohol_calendar_desc">날짜를 클릭하면 기록할 수 있어요</string>
+    <string name="archive_monthly_report">이번 달 리포트</string>
+    <string name="archive_calendar_date">%1$d년  %2$d월</string>
+    <string name="archive_alcohol_calendar">주류 캘린더</string>
+    <string name="archive_alcohol_calendar_desc">날짜를 클릭하면 기록할 수 있어요</string>
+    <string name="archive_alcohol_enhancement">총 주량이 지난달보다 %1$dL 늘었어요</string>
+    <string name="archive_alcohol_average">%1$s님은 평균적으로 %2$dL를 마셔요</string>
+    <string name="archive_alcohol_unit_description">리터 단위</string>
+    <string name="archive_alcohol_unit">%1$.1fL</string>
+    <string name="archive_month">%1$d월</string>
+
 
     <!--로그인-->
     <string name="login">로그인</string>

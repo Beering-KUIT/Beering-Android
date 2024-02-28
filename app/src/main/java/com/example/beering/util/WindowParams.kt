@@ -5,10 +5,15 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
+import androidx.core.view.marginTop
 
 fun Context.statusBarHeight(): Int {
     val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
@@ -39,4 +44,17 @@ fun Activity.setStatusBarTransparent() {
 fun dpToPx(dp: Int, context: Context): Int {
     val density = context.resources.displayMetrics.density
     return (dp * density).toInt()
+}
+
+// Statusbar padding 무시하고 최상단에 딱 붙여야 하는 경우
+fun View.ignoreRootPadding(context : Context){
+    val param = layoutParams as ViewGroup.MarginLayoutParams
+    param.setMargins(marginLeft, -context.statusBarHeight(), marginRight, marginBottom)
+    layoutParams = param
+}
+
+fun View.addStatusBarMarginTop(context : Context){
+    val param = layoutParams as ViewGroup.MarginLayoutParams
+    param.setMargins(marginLeft,marginTop + context.statusBarHeight(), marginRight, marginBottom)
+    layoutParams = param
 }

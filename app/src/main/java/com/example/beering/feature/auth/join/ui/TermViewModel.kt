@@ -12,10 +12,9 @@ import com.example.beering.data.ApiResult
 import com.example.beering.data.auth.api.UserApi
 import com.example.beering.data.auth.dto.JoinResponse
 import com.example.beering.data.auth.repository.UserRepositoryImpl
-import com.example.beering.data.onError
+import com.example.beering.data.onFail
 import com.example.beering.data.onSuccess
 import com.example.beering.feature.auth.join.domain.SignupUseCase
-import com.example.beering.feature.auth.join.domain.UserValidationUseCase
 import kotlinx.coroutines.launch
 
 class TermViewModel(
@@ -58,23 +57,23 @@ class TermViewModel(
     }
 
     fun signUp(id : String, pw : String, name : String){
-        viewModelScope.launch {
-            signUp.invoke(id, pw, name, checkBoxList)
-                .onSuccess {
-                    if (it.isSuccess){
-
-                    } else {
-                        if (it.responseCode == 2012){   // 닉네임 중복
-
-                        } else {
-                            Log.d("Join CheckNickName-RequestFail", it.result.toString())
-                        }
-                    }
-                }
-                .onError {
-                    Log.d("Join CheckNickName-NetworkError", it)
-                }
-        }
+//        viewModelScope.launch {
+//            signUp.invoke(id, pw, name, checkBoxList)
+//                .onSuccess {
+//                    if (it.isSuccess){
+//
+//                    } else {
+//                        if (it.responseCode == 2012){   // 닉네임 중복
+//
+//                        } else {
+//                            Log.d("Join CheckNickName-RequestFail", it.result.toString())
+//                        }
+//                    }
+//                }
+//                .onFail {
+//                    Log.d("Join CheckNickName-NetworkError", it)
+//                }
+//        }
     }
 
     companion object {

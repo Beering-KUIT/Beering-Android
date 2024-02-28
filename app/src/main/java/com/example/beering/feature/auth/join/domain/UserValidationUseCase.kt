@@ -9,11 +9,11 @@ import com.example.beering.util.base.BaseResponse
 
 class UserValidationUseCase(private val repository: UserRepository) {
 
-    suspend fun checkId(id : String) : ApiResult<BaseResponse<CheckIdResult>>{
+    suspend fun checkId(id : String) : ApiResult<CheckIdResult>{
         return repository.checkId(id)
     }
 
-    suspend fun checkNickname(name : String) : ApiResult<BaseResponse<CheckNameResult>>{
+    suspend fun checkNickname(name : String) : ApiResult<CheckNameResult>{
         return repository.checkNickName(name)
     }
 
