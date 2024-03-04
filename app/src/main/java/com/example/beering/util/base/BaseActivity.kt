@@ -30,17 +30,17 @@ abstract class BaseActivity<T: ViewBinding>(private val inflate: (LayoutInflater
         setContentView(binding.root)
         setStatusBarTransparent()
 //         상태 바, 네비게이션 높이 만큼 padding 주기
-        binding.root.apply{
-            if (this is ViewGroup){
-                clipToPadding = false
-            }
-            setPadding(
-                0,
-                0,
-                0,
-                this@BaseActivity.navigationHeight()
-            )
-        }
+//        binding.root.apply{
+//            if (this is ViewGroup){
+//                clipToPadding = false
+//            }
+//            setPadding(
+//                0,
+//                0,
+//                0,
+//                this@BaseActivity.navigationHeight()
+//            )
+//        }
 
         imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
 

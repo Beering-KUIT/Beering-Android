@@ -1,39 +1,27 @@
-package com.example.beering.util.base
+/**
+ * Used as a wrapper for data that is exposed via a LiveData that represents an event.
+ */
+open class SingleLiveEvent<out T>(private val content: T) {
 
-import android.util.Log
-import androidx.annotation.MainThread
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import java.util.concurrent.atomic.AtomicBoolean
+    var hasBeenHandled = false
+        private set // Allow external read but not write
 
-class SingleLiveEvent<T> : MutableLiveData<T>() {
-    private val pending = AtomicBoolean(false)
-
-    @MainThread
-    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
-        if (hasActiveObservers()) {
-            Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
+    /**
+     * Returns the content and prevents its use again.
+     * use it to handle singleLiveEvent
+     */
+    fun getContentIfNotHandled(): T? {
+        return if (hasBeenHandled) {
+            null
+        } else {
+            hasBeenHandled = true
+            content
         }
-        // Observe the internal MutableLiveData
-        super.observe(owner, Observer { t ->
-            if (pending.compareAndSet(true, false)) {
-                observer.onChanged(t)
-            }
-        })
     }
 
-    @MainThread
-    override fun setValue(t: T?) {
-        pending.set(true)
-        super.setValue(t)
-    }
-
-    @MainThread
-    fun call() {
-        value = null
-    }
-    companion object {
-        private val TAG = "SingleLiveEvent"
-    }
+    /**
+     * Returns the content, even if it's already been handled.
+     * use it when using additional observer like logger
+     */
+    fun peekContent(): T = content
 }

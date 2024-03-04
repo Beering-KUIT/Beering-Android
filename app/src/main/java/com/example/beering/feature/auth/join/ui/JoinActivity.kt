@@ -17,6 +17,7 @@ import com.example.beering.feature.auth.join.MemberAgreements
 import com.example.beering.feature.auth.join.MemberResponse
 import com.example.beering.util.addStatusBarMarginTop
 import com.example.beering.util.base.BaseActivity
+import com.google.android.material.snackbar.Snackbar
 import retrofit2.Call
 import retrofit2.Response
 
@@ -410,6 +411,11 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
             when(it){
                 true -> binding.joinNextOnIv.visibility = View.VISIBLE
                 else -> binding.joinNextOnIv.visibility = View.GONE
+            }
+        })      // 다음 버튼 활성화
+        joinViewModel.snackBarEvent.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {msg ->
+                Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
             }
         })
 
