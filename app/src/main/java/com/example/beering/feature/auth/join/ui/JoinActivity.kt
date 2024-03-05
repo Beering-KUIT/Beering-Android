@@ -10,35 +10,19 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.beering.R
-import com.example.beering.util.getRetrofit
 import com.example.beering.databinding.ActivityJoinBinding
-import com.example.beering.feature.auth.join.JoinApiService
-import com.example.beering.feature.auth.join.MemberAgreements
-import com.example.beering.feature.auth.join.MemberResponse
-import com.example.beering.util.addStatusBarMarginTop
 import com.example.beering.util.base.BaseActivity
 import com.google.android.material.snackbar.Snackbar
-import retrofit2.Call
-import retrofit2.Response
 
 class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::inflate) {
     private val joinViewModel : JoinViewModel by viewModels { JoinViewModel.Factory }
 
-    var idBool:Boolean = false
-    var passwordBool:Boolean = false
-    var nicknameBool:Boolean = false
-    var checkbox1Bool:Boolean = false
-    var checkbox2Bool:Boolean = false
-
     override fun initAfterBinding() {
-        binding.joinHeaderCl.root.addStatusBarMarginTop(this)
-        binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
-            finish()
-        }
-
+//        binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
+//            finish()
+//        }
         binding.joinNextOffIv.setOnClickListener {
-            val mIntent = Intent(this, TermActivity::class.java)
-            startActivity(mIntent)
+            startActivity(Intent(this, TermActivity::class.java))
         }
 
         // 객체 생성
@@ -357,9 +341,6 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
                 binding.joinPasswordBar.setBackgroundColor(ContextCompat.getColor(this@JoinActivity,
                     R.color.beering_green
                 ))
-                passwordBool = true
-            } else {
-                passwordBool = false
             }
         })  // 패스워드 유효성 검사
         joinViewModel.idCheck.observe(this, Observer{

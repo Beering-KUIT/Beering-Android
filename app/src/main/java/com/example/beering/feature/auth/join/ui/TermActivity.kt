@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.beering.R
 import com.example.beering.databinding.ActivityJoinTermBinding
-import com.example.beering.feature.auth.join.model.UserInfo
 import com.example.beering.util.base.BaseActivity
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import java.io.BufferedReader

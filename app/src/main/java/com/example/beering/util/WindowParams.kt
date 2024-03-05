@@ -34,7 +34,7 @@ fun Context.navigationHeight(): Int {
 
 fun Activity.setStatusBarTransparent() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-        window.setDecorFitsSystemWindows(false)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         window.insetsController?.let {
             it.setSystemBarsAppearance(
                 WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS,
