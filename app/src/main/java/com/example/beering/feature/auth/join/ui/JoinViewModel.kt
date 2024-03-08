@@ -41,6 +41,8 @@ class JoinViewModel(
     private val _validNext = MutableLiveData<Boolean>()     // 최종 활성화 여부
     val validNext: LiveData<Boolean> = _validNext
 
+    var isKakao : Boolean
+
     init{
         _userId.value = ""
         _password.value = ""
@@ -48,6 +50,7 @@ class JoinViewModel(
         _name.value = ""
         _idCheck.value = DuplicationCheck.PROCEEDING
         _nicknameCheck.value = DuplicationCheck.PROCEEDING
+        isKakao = false
     }
     fun setUserId(id : String){
         _userId.value = id
@@ -72,14 +75,30 @@ class JoinViewModel(
         _nicknameCheck.value = DuplicationCheck.PROCEEDING
     }
 
+    fun setIsKakako(isKakao : Boolean){
+        this.isKakao = isKakao
+    }
+
     fun validNext(){
-        if (pwValidation.value == null){
-            return
+        if(isKakao){
+            validNextKakao()
+        } else {
+            if (pwValidation.value == null) {
+                return
+            }
+            _validNext.value = (pwValidation.value!!.valid
+                    && pwValidation.value!!.isConfirmed
+                    && nicknameCheck.value == DuplicationCheck.CHECKED
+                    && idCheck.value == DuplicationCheck.CHECKED)
+
         }
-        _validNext.value = (pwValidation.value!!.valid
-                && pwValidation.value!!.isConfirmed
-                && nicknameCheck.value == DuplicationCheck.CHECKED
-                && idCheck.value == DuplicationCheck.CHECKED)
+    }
+
+
+
+
+    fun validNextKakao(){
+        _validNext.value = (nicknameCheck.value == DuplicationCheck.CHECKED)
     }
 
     fun checkId(){

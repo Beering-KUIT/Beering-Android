@@ -11,6 +11,7 @@ import androidx.core.view.marginTop
 import androidx.lifecycle.Observer
 import com.example.beering.R
 import com.example.beering.databinding.ActivityJoinBinding
+import com.example.beering.util.addStatusBarMarginTop
 import com.example.beering.util.base.BaseActivity
 import com.example.beering.util.dpToPx
 
@@ -19,6 +20,8 @@ class JoinKakaoActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::
 
 
     override fun initAfterBinding() {
+        binding.joinHeaderCl.root.addStatusBarMarginTop(this)
+        joinViewModel.setIsKakako(true)
         binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
             finish()
         }
