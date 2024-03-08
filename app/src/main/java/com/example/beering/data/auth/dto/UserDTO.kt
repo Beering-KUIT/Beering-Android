@@ -1,6 +1,9 @@
 package com.example.beering.data.auth.dto
 
 import com.example.beering.feature.auth.join.MemberErrors
+import com.example.beering.feature.auth.login.LoginError
+import com.example.beering.feature.auth.login.LoginResult
+import com.example.beering.util.token.Jwt
 import com.google.gson.annotations.SerializedName
 
 data class CheckIdResult(
@@ -34,3 +37,14 @@ data class JoinError(
     @SerializedName("rejectValue") val rejectValue: String,
     @SerializedName("message") val message: String
 )
+
+data class LoginRequest(
+    @SerializedName("username") val username: String,
+    @SerializedName("password") val password: String
+)
+
+data class LoginResponse(
+    @SerializedName("memberId") val memberId: Int,
+    @SerializedName("jwtInfo") val jwtInfo: JwtSet
+)
+

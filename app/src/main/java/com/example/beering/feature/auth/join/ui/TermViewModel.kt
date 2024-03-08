@@ -1,5 +1,6 @@
 package com.example.beering.feature.auth.join.ui
 
+import SingleLiveEvent
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,14 +21,16 @@ import kotlinx.coroutines.launch
 class TermViewModel(
     private val signUp : SignupUseCase
 ) : ViewModel() {
+    // UI state
     private val checkBoxList = ArrayList<Boolean>()
     private val _checkBoxes = MutableLiveData<ArrayList<Boolean>>()
     val checkBoxes: LiveData<ArrayList<Boolean>> = _checkBoxes
     private val _curTermIndex = MutableLiveData<Int>()
     val curTermIndex : LiveData<Int> = _curTermIndex
 
-    private val _signUpResponse = MutableLiveData<ApiResult<JoinResponse>>()
-    val signUpResponse : LiveData<ApiResult<JoinResponse>> = _signUpResponse
+    // SingleLiveEvent
+    private val _intentFlag = MutableLiveData<SingleLiveEvent<String>>()
+    val intentFlag : LiveData<SingleLiveEvent<String>> = _intentFlag
 
     init{
         for (i in 0 .. 2){
@@ -57,23 +60,18 @@ class TermViewModel(
     }
 
     fun signUp(id : String, pw : String, name : String){
-//        viewModelScope.launch {
-//            signUp.invoke(id, pw, name, checkBoxList)
-//                .onSuccess {
-//                    if (it.isSuccess){
-//
-//                    } else {
-//                        if (it.responseCode == 2012){   // 닉네임 중복
-//
-//                        } else {
-//                            Log.d("Join CheckNickName-RequestFail", it.result.toString())
-//                        }
-//                    }
-//                }
-//                .onFail {
-//                    Log.d("Join CheckNickName-NetworkError", it)
-//                }
-//        }
+        viewModelScope.launch {
+            signUp(id, pw, name, checkBoxList)
+                .onSuccess {
+                    _intentFlag.value = SingleLiveEvent("complete")
+                }
+                .onFail {code, msg ->
+                    when(code){
+                        2010 -> SingleLiveEvent("request-error")
+                        2011 -> SingleLiveEvent("request-email-valid-error")
+                    }
+                }
+        }
     }
 
     companion object {
