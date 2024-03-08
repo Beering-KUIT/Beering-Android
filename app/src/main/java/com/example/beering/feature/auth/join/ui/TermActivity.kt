@@ -10,8 +10,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.beering.R
 import com.example.beering.databinding.ActivityJoinTermBinding
-import com.example.beering.feature.auth.join.model.UserInfo
 import com.example.beering.util.base.BaseActivity
+import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import java.io.BufferedReader
 import java.io.IOException
@@ -42,6 +42,31 @@ class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBindi
             } else {
                 binding.termJoinOnIv.visibility = View.GONE
                 binding.termCheckAllCb.isChecked = false
+            }
+        })
+        termViewModel.intentFlag.observe(this, Observer {
+            it.getContentIfNotHandled()?.let{msg ->
+                when(msg){
+                    "complete" -> startActivity(Intent(this, CompleteActivity::class.java))
+                    "request-error" -> {
+                        Snackbar.make(binding.root, "요청값이 잘못되었습니다. 회원가입 정보를 다시 입력해주세요.", Snackbar.LENGTH_SHORT)
+                            .addCallback(object : Snackbar.Callback() {
+                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                    super.onDismissed(transientBottomBar, event)
+                                    finish() // Snackbar가 완전히 사라진 후에 finish() 호출
+                                }
+                            }).show()
+                    }
+                    "request-email-valid-error" -> {
+                        Snackbar.make(binding.root, "이메일 형식이 잘못되었습니다. 회원가입 정보를 다시 입력해주세요.", Snackbar.LENGTH_SHORT)
+                            .addCallback(object : Snackbar.Callback() {
+                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                    super.onDismissed(transientBottomBar, event)
+                                    finish() // Snackbar가 완전히 사라진 후에 finish() 호출
+                                }
+                            }).show()
+                    }
+                }
             }
         })
 

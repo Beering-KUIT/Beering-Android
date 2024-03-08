@@ -12,13 +12,7 @@ class SignupUseCase(private val repository: UserRepository) {
                                 nickname: String,
                                 checkBoxList : ArrayList<Boolean>
     ) : ApiResult<JoinResponse>{
-        val agreements = arrayListOf(
-            JoinAgreements("SERVICE", checkBoxList[0]),
-            JoinAgreements("PERSONAL", checkBoxList[1]),
-            JoinAgreements("MARKETING", checkBoxList[2])
-            )
-        val apiRequest = JoinRequest(username, password, nickname, agreements)
-        return repository.requestJoin(apiRequest)
+        return repository.requestJoin(username, password, nickname, checkBoxList)
     }
 
 }

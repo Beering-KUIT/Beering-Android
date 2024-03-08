@@ -31,6 +31,7 @@
     <string name="term_join">회원가입</string>
     <string name="term_required">(필수)</string>
     <string name="term_optional">(선택)</string>
+    <string name="term_notice">전체동의는 카카오 및 BEERING의 서비스 동의를 포함하고 있습니다. 전체동의는 선택목적에 대한 동의를 포함하고 있으며, 선택목적에 대한 동의를 거부해도 서비스 이용이 가능합니다.</string>
     <string name="term_first">비어링 서비스 이용약관</string>
     <string name="term_second">개인정보수집 및 이용동의</string>
     <string name="term_third">마케팅 정보 수신 동의</string>

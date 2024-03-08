@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.beering.R
 import com.example.beering.databinding.FragmentArchiveBinding
 import com.example.beering.feature.archive.model.MonthlyReport
-import com.example.beering.util.addStatusBarMarginTop
 import com.example.beering.util.base.BaseFragment
 import com.google.android.material.internal.ViewUtils.removeOnGlobalLayoutListener
 import java.time.LocalDateTime
@@ -26,8 +25,6 @@ class ArchiveFragment : BaseFragment<FragmentArchiveBinding>(FragmentArchiveBind
             MonthlyReport(6f, 11),
             MonthlyReport(9.3f, 12)
         )
-
-        binding.archiveTitleTv.addStatusBarMarginTop(requireContext())
 
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
