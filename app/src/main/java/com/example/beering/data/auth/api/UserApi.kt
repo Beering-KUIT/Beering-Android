@@ -4,6 +4,8 @@ import com.example.beering.data.auth.dto.CheckIdResult
 import com.example.beering.data.auth.dto.CheckNameResult
 import com.example.beering.data.auth.dto.JoinRequest
 import com.example.beering.data.auth.dto.JoinResponse
+import com.example.beering.data.auth.dto.LoginRequest
+import com.example.beering.data.auth.dto.LoginResponse
 import com.example.beering.feature.auth.join.Member
 import com.example.beering.feature.auth.join.MemberResponse
 import com.example.beering.util.base.BaseResponse
@@ -22,5 +24,8 @@ interface UserApi {
 
     @GET("/members/validate/nickname")
     suspend fun checkNickname(@Query("nickname") nickname: String): Response<BaseResponse<CheckNameResult>>
+
+    @POST("/auth/login")
+    suspend fun login(@Body loginRequest : LoginRequest) : Response<BaseResponse<LoginResponse>>
 
 }

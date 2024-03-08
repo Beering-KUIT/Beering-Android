@@ -1,5 +1,6 @@
 package com.example.beering.feature.auth.join.ui
 
+import SingleLiveEvent
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class JoinViewModel(
     private val validation : UserValidationUseCase
 ) : ViewModel() {
+    // UI state
     private val _userId = MutableLiveData<String>()
     val userId: LiveData<String> = _userId
     private val _password = MutableLiveData<String>()
@@ -41,6 +43,10 @@ class JoinViewModel(
     private val _validNext = MutableLiveData<Boolean>()     // 최종 활성화 여부
     val validNext: LiveData<Boolean> = _validNext
 
+    // SingleLiveEvent
+    private val _snackBarEvent = MutableLiveData<SingleLiveEvent<String>>()
+    val snackBarEvent : LiveData<SingleLiveEvent<String>> = _snackBarEvent
+
     init{
         _userId.value = ""
         _password.value = ""
@@ -52,6 +58,7 @@ class JoinViewModel(
     fun setUserId(id : String){
         _userId.value = id
         _idCheck.value = DuplicationCheck.PROCEEDING
+        validNext()
     }
 
     fun setPassword(pw : String){
@@ -70,12 +77,17 @@ class JoinViewModel(
         _name.value = name
         _nicknameValidation.value = validation.validateName(name)
         _nicknameCheck.value = DuplicationCheck.PROCEEDING
+        validNext()
     }
 
     fun validNext(){
         if (pwValidation.value == null){
             return
         }
+        Log.d("validLog", "${pwValidation.value!!.valid}\n" +
+                "                && ${pwValidation.value!!.isConfirmed}\n" +
+                "                && ${nicknameCheck.value}\n" +
+                "                && ${idCheck.value}")
         _validNext.value = (pwValidation.value!!.valid
                 && pwValidation.value!!.isConfirmed
                 && nicknameCheck.value == DuplicationCheck.CHECKED
@@ -83,7 +95,6 @@ class JoinViewModel(
     }
 
     fun checkId(){
-        // TODO : 이메일 형식인지 정규식 확인
         val cleanEmail = userId.value!!.trim()
         Log.d("userId", cleanEmail)
         viewModelScope.launch {
@@ -100,15 +111,14 @@ class JoinViewModel(
                 .onFail {code, message ->
                     Log.d("Join CheckId-Fail", message)
                     when(code){
-                        2010 -> Log.d("responseeoeoeo", "아랄아랄")    // 아이디 중복
+                        2010 -> _snackBarEvent.value = SingleLiveEvent("아이디 입력 형식을 다시 한 번 확인해 주세요.")
                     }
                 }
+            validNext()
         }
-        validNext()
     }
 
     fun checkNickname(){
-        // TODO : 이름 형식 안맞으면 활성화 x 되게
         viewModelScope.launch {
             validation.checkNickname(name.value!!)
                 .onSuccess {
@@ -119,11 +129,11 @@ class JoinViewModel(
                 .onFail {code, message ->
                     Log.d("Join CheckNickName-NetworkError", message)
                     when (code){
-                        2012 -> _idCheck.value = DuplicationCheck.UNCHECKED     // 닉네임 중복
+                        2010 -> _snackBarEvent.value = SingleLiveEvent("닉네임 입력 형식을 다시 한 번 확인해 주세요.")
                     }
                 }
+            validNext()
         }
-        validNext()
     }
 
     // 뷰모델 의존성 주입을 위한 Factory

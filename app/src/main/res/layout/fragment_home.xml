@@ -14,8 +14,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/home_header_cl2"
             android:layout_width="match_parent"
-            android:layout_height="313dp"
-            android:background="@drawable/img_home_background">
+            android:layout_height="wrap_content"
+            android:background="@drawable/img_home_background"
+            android:paddingBottom="20dp"
+            android:fitsSystemWindows="true">
 
             <EditText
                 android:id="@+id/home_search_et"
@@ -25,7 +27,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/home_scan_iv"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="11dp"
                 android:layout_marginEnd="12dp"
                 android:background="@drawable/bg_edittext"
                 android:hint="검색어를 입력하세요"
@@ -41,11 +43,11 @@
                 android:id="@+id/home_scan_iv"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginTop="64dp"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/button_search_code"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toBottomOf="@id/home_search_et"
+                app:layout_constraintTop_toTopOf="@id/home_search_et" />
 
             <TextView
                 android:id="@+id/home_recommend_tv"
