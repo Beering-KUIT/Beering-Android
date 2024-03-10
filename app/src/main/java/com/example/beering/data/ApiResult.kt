@@ -1,5 +1,6 @@
 package com.example.beering.data
 
+import android.util.Log
 import com.example.beering.BeeringApplication
 import com.example.beering.util.base.ApiErrorResponse
 import com.example.beering.util.base.BaseResponse
@@ -12,9 +13,14 @@ sealed class ApiResult<T> {
 
     companion object {
         // isSuccess 값에 따라 Success 또는 Fail 객체를 생성하는 정적 메서드
-        fun <T> create(response: Response<BaseResponse<T>>): ApiResult<T> {
+        inline fun <reified T> create(response: Response<BaseResponse<T>>): ApiResult<T> {
             return if (response.isSuccessful) {
-                Success(response.body()!!.result!!)
+                if (T::class == Unit::class){
+                    Success(Unit) as ApiResult<T>
+                } else {
+                    Success(response.body()!!.result!!)
+                }
+
             } else {
                 val errorResponse = parseErrorResponse<ApiErrorResponse>(response.errorBody()!!)!!
                 Fail(errorResponse.responseCode, errorResponse.responseMessage)

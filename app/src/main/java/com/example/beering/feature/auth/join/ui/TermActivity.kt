@@ -3,6 +3,7 @@ package com.example.beering.feature.auth.join.ui
 import android.content.Intent
 import android.os.Build
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.activity.OnBackPressedCallback
@@ -47,7 +48,13 @@ class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBindi
         termViewModel.intentFlag.observe(this, Observer {
             it.getContentIfNotHandled()?.let{msg ->
                 when(msg){
-                    "complete" -> startActivity(Intent(this, CompleteActivity::class.java))
+                    "complete" -> {
+                        val mIntent = Intent(this, CompleteActivity::class.java)
+                        mIntent.putExtra("id", intent.getStringExtra("id")!!)
+                        mIntent.putExtra("pw", intent.getStringExtra("pw")!!)
+                        mIntent.putExtra("name", intent.getStringExtra("name")!!)
+                        startActivity(mIntent)
+                    }
                     "request-error" -> {
                         Snackbar.make(binding.root, "요청값이 잘못되었습니다. 회원가입 정보를 다시 입력해주세요.", Snackbar.LENGTH_SHORT)
                             .addCallback(object : Snackbar.Callback() {
@@ -130,13 +137,10 @@ class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBindi
 
         // 회원가입 버튼
         binding.termJoinOnIv.setOnClickListener {
-            // TODO : 회원가입 요청
             val id = intent.getStringExtra("id")!!
             val pw = intent.getStringExtra("pw")!!
             val name = intent.getStringExtra("name")!!
             termViewModel.signUp(id, pw, name)
-            val mIntent = Intent(this, CompleteActivity::class.java)
-            startActivity(mIntent)
         }
 
         // 뒤로가기 버튼 로직 재정의

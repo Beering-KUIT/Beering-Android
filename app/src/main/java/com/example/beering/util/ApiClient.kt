@@ -1,6 +1,5 @@
 package com.example.beering.util
 
-import com.example.beering.feature.auth.join.JoinApiService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response

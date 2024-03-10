@@ -1,17 +1,21 @@
 package com.example.beering.data.auth.repository
 
+import android.util.Log
 import com.example.beering.data.ApiResult
+import com.example.beering.data.auth.api.TokenSpf
 import com.example.beering.data.auth.api.UserApi
 import com.example.beering.data.auth.dto.CheckIdResult
 import com.example.beering.data.auth.dto.CheckNameResult
 import com.example.beering.data.auth.dto.JoinAgreements
 import com.example.beering.data.auth.dto.JoinRequest
-import com.example.beering.data.auth.dto.JoinResponse
 import com.example.beering.data.auth.dto.LoginRequest
 import com.example.beering.data.auth.dto.LoginResponse
 import com.example.beering.feature.auth.join.domain.UserRepository
 
-class UserRepositoryImpl(private val userApi: UserApi) : UserRepository {
+class UserRepositoryImpl(
+    private val userApi: UserApi,
+    private val tokenSpf : TokenSpf
+) : UserRepository {
     override suspend fun checkId(id: String): ApiResult<CheckIdResult> {
         val response = userApi.checkUserId(id)
 
@@ -42,7 +46,7 @@ class UserRepositoryImpl(private val userApi: UserApi) : UserRepository {
     override suspend fun requestJoin(username: String,
                                      password: String,
                                      nickname: String,
-                                     checkBoxList : ArrayList<Boolean>): ApiResult<JoinResponse> {
+                                     checkBoxList : ArrayList<Boolean>): ApiResult<Unit> {
         val agreements = arrayListOf(
             JoinAgreements("SERVICE", checkBoxList[0]),
             JoinAgreements("PERSONAL", checkBoxList[1]),
@@ -57,5 +61,21 @@ class UserRepositoryImpl(private val userApi: UserApi) : UserRepository {
         val request = LoginRequest(id, pw)
         val response = userApi.login(request)
         return ApiResult.create(response)
+    }
+
+    override fun saveAccessToken(token: String) {
+        tokenSpf.saveAccessToken(token)
+    }
+
+    override fun saveRefreshToken(token: String) {
+        tokenSpf.saveRefreshToken(token)
+    }
+
+    override fun getAccessToken(): String? {
+        return tokenSpf.getAccessToken()
+    }
+
+    override fun getRefreshToken(): String? {
+        return tokenSpf.getRefreshToken()
     }
 }
