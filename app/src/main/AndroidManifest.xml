@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -38,7 +39,7 @@
             android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".feature.auth.join.ui.TermActivity"/>
         <activity android:name=".feature.auth.join.ui.CompleteActivity"/>
-        <activity android:name=".feature.auth.login.LoginActivity" />
+        <activity android:name=".feature.auth.login.ui.LoginActivity" />
         <activity android:name=".feature.my.drinkFavorite.DrinkFavoriteActivity" />
         <activity android:name=".feature.review.reviewWriting.ReviewWritingActivity" />
         <activity android:name=".feature.my.myReviews.MyReviewsActivity" />

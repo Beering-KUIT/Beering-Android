@@ -3,7 +3,7 @@ package com.example.beering.util.token
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import com.example.beering.feature.auth.login.LoginActivity
+import com.example.beering.feature.auth.login.ui.LoginActivity
 import com.example.beering.util.getRefreshToken
 import com.example.beering.util.getRetrofit_header
 import com.example.beering.util.setToken

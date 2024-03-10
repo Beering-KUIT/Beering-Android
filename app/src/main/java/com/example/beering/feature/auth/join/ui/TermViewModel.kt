@@ -1,7 +1,6 @@
 package com.example.beering.feature.auth.join.ui
 
 import SingleLiveEvent
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,9 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.beering.BeeringApplication
-import com.example.beering.data.ApiResult
+import com.example.beering.data.auth.api.TokenSpf
 import com.example.beering.data.auth.api.UserApi
-import com.example.beering.data.auth.dto.JoinResponse
 import com.example.beering.data.auth.repository.UserRepositoryImpl
 import com.example.beering.data.onFail
 import com.example.beering.data.onSuccess
@@ -67,8 +65,8 @@ class TermViewModel(
                 }
                 .onFail {code, msg ->
                     when(code){
-                        2010 -> SingleLiveEvent("request-error")
-                        2011 -> SingleLiveEvent("request-email-valid-error")
+                        2010 -> _intentFlag.value = SingleLiveEvent("request-error")
+                        2011 -> _intentFlag.value = SingleLiveEvent("request-email-valid-error")
                     }
                 }
         }
@@ -81,7 +79,7 @@ class TermViewModel(
                 modelClass: Class<T>, extras: CreationExtras
             ): T {
                 val userDataSource = BeeringApplication.retrofit.create(UserApi::class.java)
-                val signupUseCase = SignupUseCase(UserRepositoryImpl(userDataSource))
+                val signupUseCase = SignupUseCase(UserRepositoryImpl(userDataSource, TokenSpf()))
 
                 return TermViewModel(signupUseCase) as T
             }
