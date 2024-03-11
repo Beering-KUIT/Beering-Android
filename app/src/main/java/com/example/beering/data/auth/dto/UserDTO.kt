@@ -1,9 +1,5 @@
 package com.example.beering.data.auth.dto
 
-import com.example.beering.feature.auth.join.MemberErrors
-import com.example.beering.feature.auth.login.LoginError
-import com.example.beering.feature.auth.login.LoginResult
-import com.example.beering.util.token.Jwt
 import com.google.gson.annotations.SerializedName
 
 data class CheckIdResult(
@@ -24,18 +20,6 @@ data class JoinRequest(
 data class JoinAgreements(
     @SerializedName("name") val name: String,
     @SerializedName("isAgreed") val isAgreed: Boolean,
-)
-
-data class JoinResponse(
-    @SerializedName("errors") val errors: List<JoinError>,
-    @SerializedName("message") val message: String,
-    @SerializedName("objectName") val objectName: String
-)
-
-data class JoinError(
-    @SerializedName("fieldName") val fieldName: String,
-    @SerializedName("rejectValue") val rejectValue: String,
-    @SerializedName("message") val message: String
 )
 
 data class LoginRequest(

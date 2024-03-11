@@ -18,11 +18,8 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
     private val joinViewModel : JoinViewModel by viewModels { JoinViewModel.Factory }
 
     override fun initAfterBinding() {
-//        binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
-//            finish()
-//        }
-        binding.joinNextOffIv.setOnClickListener {
-            startActivity(Intent(this, TermActivity::class.java))
+        binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
+            finish()
         }
 
         // 객체 생성
@@ -360,6 +357,7 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
             }
         })  // 아이디 중복여부
         joinViewModel.nicknameCheck.observe(this, Observer{
+            Log.d("ititititit", it.toString())
             when(it!!){
                 JoinViewModel.Companion.DuplicationCheck.PROCEEDING -> {
                     binding.conditionText.visibility = View.VISIBLE

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.beering.BeeringApplication
+import com.example.beering.data.auth.api.TokenSpf
 import com.example.beering.data.auth.api.UserApi
 import com.example.beering.data.auth.repository.UserRepositoryImpl
 import com.example.beering.data.onFail
@@ -152,6 +153,8 @@ class JoinViewModel(
                 .onSuccess {
                     if (it.available){
                         _nicknameCheck.value = DuplicationCheck.CHECKED
+                    } else {
+                        _nicknameCheck.value = DuplicationCheck.UNCHECKED
                     }
                 }
                 .onFail {code, message ->
@@ -176,7 +179,7 @@ class JoinViewModel(
                 modelClass: Class<T>,
             ): T {
                 val userDataSource = BeeringApplication.retrofit.create(UserApi::class.java)
-                val userValidationUseCase = UserValidationUseCase(UserRepositoryImpl(userDataSource))
+                val userValidationUseCase = UserValidationUseCase(UserRepositoryImpl(userDataSource, TokenSpf()))
 
                 return JoinViewModel(
                     userValidationUseCase

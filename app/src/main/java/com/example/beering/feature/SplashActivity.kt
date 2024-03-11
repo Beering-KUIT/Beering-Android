@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import com.example.beering.databinding.ActivitySplashBinding
-import com.example.beering.feature.auth.login.LoginActivity
+import com.example.beering.feature.auth.login.ui.LoginActivity
 import com.example.beering.util.base.BaseActivity
 
 
