@@ -60,7 +60,9 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
                 binding.joinIdIv22.visibility = View.VISIBLE
 
                 binding.joinIdIv1.setOnClickListener {
-                    binding.joinIdEd.text.clear()
+                    binding.joinIdEd.text.clear(
+                        
+                    )
                     joinViewModel.setUserId("")
                 }
             } else {
