@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beering.data.auth.dto.LoginRequest
+import com.example.beering.data.auth.dto.LoginResponse
 import com.example.beering.feature.MainActivity
 import com.example.beering.util.getRetrofit
 import com.example.beering.databinding.ActivityLoginBinding
