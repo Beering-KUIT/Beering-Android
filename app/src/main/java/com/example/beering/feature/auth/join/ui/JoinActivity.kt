@@ -10,23 +10,12 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.beering.R
-import com.example.beering.util.getRetrofit
 import com.example.beering.databinding.ActivityJoinBinding
-import com.example.beering.feature.auth.join.JoinApiService
-import com.example.beering.feature.auth.join.MemberAgreements
-import com.example.beering.feature.auth.join.MemberResponse
 import com.example.beering.util.base.BaseActivity
-import retrofit2.Call
-import retrofit2.Response
+import com.google.android.material.snackbar.Snackbar
 
 class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::inflate) {
     private val joinViewModel : JoinViewModel by viewModels { JoinViewModel.Factory }
-
-    var idBool:Boolean = false
-    var passwordBool:Boolean = false
-    var nicknameBool:Boolean = false
-    var checkbox1Bool:Boolean = false
-    var checkbox2Bool:Boolean = false
 
     override fun initAfterBinding() {
         binding.joinHeaderCl.toolbarBackIv.setOnClickListener {
@@ -351,9 +340,6 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
                 binding.joinPasswordBar.setBackgroundColor(ContextCompat.getColor(this@JoinActivity,
                     R.color.beering_green
                 ))
-                passwordBool = true
-            } else {
-                passwordBool = false
             }
         })  // 패스워드 유효성 검사
         joinViewModel.idCheck.observe(this, Observer{
@@ -373,6 +359,7 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
             }
         })  // 아이디 중복여부
         joinViewModel.nicknameCheck.observe(this, Observer{
+            Log.d("ititititit", it.toString())
             when(it!!){
                 JoinViewModel.Companion.DuplicationCheck.PROCEEDING -> {
                     binding.conditionText.visibility = View.VISIBLE
@@ -405,6 +392,11 @@ class JoinActivity: BaseActivity<ActivityJoinBinding>(ActivityJoinBinding::infla
             when(it){
                 true -> binding.joinNextOnIv.visibility = View.VISIBLE
                 else -> binding.joinNextOnIv.visibility = View.GONE
+            }
+        })      // 다음 버튼 활성화
+        joinViewModel.snackBarEvent.observe(this, Observer {
+            it.getContentIfNotHandled()?.let {msg ->
+                Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT).show()
             }
         })
 

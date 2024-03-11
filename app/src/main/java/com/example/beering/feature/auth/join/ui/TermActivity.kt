@@ -3,6 +3,7 @@ package com.example.beering.feature.auth.join.ui
 import android.content.Intent
 import android.os.Build
 import android.text.Html
+import android.util.Log
 import android.view.View
 import android.widget.CheckBox
 import androidx.activity.OnBackPressedCallback
@@ -10,8 +11,8 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import com.example.beering.R
 import com.example.beering.databinding.ActivityJoinTermBinding
-import com.example.beering.feature.auth.join.model.UserInfo
 import com.example.beering.util.base.BaseActivity
+import com.google.android.material.snackbar.Snackbar
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import java.io.BufferedReader
 import java.io.IOException
@@ -19,7 +20,7 @@ import java.io.InputStreamReader
 
 
 class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBinding::inflate) {
-    val termViewModel : TermViewModel by viewModels()
+    val termViewModel : TermViewModel by viewModels { TermViewModel.Factory }
     override fun initAfterBinding() {
 
         termViewModel.curTermIndex.observe(this, Observer {
@@ -42,6 +43,37 @@ class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBindi
             } else {
                 binding.termJoinOnIv.visibility = View.GONE
                 binding.termCheckAllCb.isChecked = false
+            }
+        })
+        termViewModel.intentFlag.observe(this, Observer {
+            it.getContentIfNotHandled()?.let{msg ->
+                when(msg){
+                    "complete" -> {
+                        val mIntent = Intent(this, CompleteActivity::class.java)
+                        mIntent.putExtra("id", intent.getStringExtra("id")!!)
+                        mIntent.putExtra("pw", intent.getStringExtra("pw")!!)
+                        mIntent.putExtra("name", intent.getStringExtra("name")!!)
+                        startActivity(mIntent)
+                    }
+                    "request-error" -> {
+                        Snackbar.make(binding.root, "요청값이 잘못되었습니다. 회원가입 정보를 다시 입력해주세요.", Snackbar.LENGTH_SHORT)
+                            .addCallback(object : Snackbar.Callback() {
+                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                    super.onDismissed(transientBottomBar, event)
+                                    finish() // Snackbar가 완전히 사라진 후에 finish() 호출
+                                }
+                            }).show()
+                    }
+                    "request-email-valid-error" -> {
+                        Snackbar.make(binding.root, "이메일 형식이 잘못되었습니다. 회원가입 정보를 다시 입력해주세요.", Snackbar.LENGTH_SHORT)
+                            .addCallback(object : Snackbar.Callback() {
+                                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                                    super.onDismissed(transientBottomBar, event)
+                                    finish() // Snackbar가 완전히 사라진 후에 finish() 호출
+                                }
+                            }).show()
+                    }
+                }
             }
         })
 
@@ -105,13 +137,10 @@ class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBindi
 
         // 회원가입 버튼
         binding.termJoinOnIv.setOnClickListener {
-            // TODO : 회원가입 요청
             val id = intent.getStringExtra("id")!!
             val pw = intent.getStringExtra("pw")!!
             val name = intent.getStringExtra("name")!!
             termViewModel.signUp(id, pw, name)
-            val mIntent = Intent(this, CompleteActivity::class.java)
-            startActivity(mIntent)
         }
 
         // 뒤로가기 버튼 로직 재정의

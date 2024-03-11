@@ -55,7 +55,7 @@ class DrinkSearchFragment : Fragment() {
     // 0: 이름순, 1: 리뷰많은순, 2: 최저가순, 3: 평점순
 
     var searchCountry : String? = null
-    var searchTagList = mutableListOf<String>()    // 필터 태그
+    var searchTagList : MutableList<String>? = null    // 필터 태그
 
     // 필터 하위 옵션
     var searchSweetness: Int? = null // 와인 하위옵션
@@ -217,7 +217,7 @@ class DrinkSearchFragment : Fragment() {
         }
 
 
-        drinkSearchService.drinkSearch(null,binding.drinkSearchTopSearchEd.text.toString(), searchType, searchSort, searchPrice_min, searchPrice_max, searchCountry, searchTagList.joinToString(","), searchSweetness).enqueue(object : retrofit2.Callback<DrinkCoverResponse> {
+        drinkSearchService.drinkSearch(null,binding.drinkSearchTopSearchEd.text?.toString()?.takeIf { it.isNotEmpty() }, searchType, searchSort, searchPrice_min, searchPrice_max, searchCountry, null, searchSweetness).enqueue(object : retrofit2.Callback<DrinkCoverResponse> {
             override fun onResponse(
                 call: Call<DrinkCoverResponse>,
                 response: Response<DrinkCoverResponse>
@@ -334,8 +334,8 @@ class DrinkSearchFragment : Fragment() {
                         getRetrofit().create(DrinkSearchApiService::class.java)
                 }
 
-
-                drinkSearchService.drinkSearch(null,binding.drinkSearchTopSearchEd.text.toString(), searchType, searchSort, searchPrice_min, searchPrice_max, searchCountry, searchTagList.joinToString(","), searchSweetness).enqueue(object : retrofit2.Callback<DrinkCoverResponse> {
+                val searchTag = searchTagList?.joinToString(",")
+                drinkSearchService.drinkSearch(null,binding.drinkSearchTopSearchEd.text?.toString()?.takeIf { it.isNotEmpty() } , searchType, searchSort, searchPrice_min, searchPrice_max, searchCountry, searchTag , searchSweetness).enqueue(object : retrofit2.Callback<DrinkCoverResponse> {
                     override fun onResponse(
                         call: Call<DrinkCoverResponse>,
                         response: Response<DrinkCoverResponse>

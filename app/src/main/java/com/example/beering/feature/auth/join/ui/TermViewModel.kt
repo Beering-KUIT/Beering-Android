@@ -1,6 +1,6 @@
 package com.example.beering.feature.auth.join.ui
 
-import android.util.Log
+import SingleLiveEvent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,27 +8,27 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.beering.BeeringApplication
-import com.example.beering.data.ApiResult
+import com.example.beering.data.auth.api.TokenSpf
 import com.example.beering.data.auth.api.UserApi
-import com.example.beering.data.auth.dto.JoinResponse
 import com.example.beering.data.auth.repository.UserRepositoryImpl
-import com.example.beering.data.onError
+import com.example.beering.data.onFail
 import com.example.beering.data.onSuccess
 import com.example.beering.feature.auth.join.domain.SignupUseCase
-import com.example.beering.feature.auth.join.domain.UserValidationUseCase
 import kotlinx.coroutines.launch
 
 class TermViewModel(
     private val signUp : SignupUseCase
 ) : ViewModel() {
+    // UI state
     private val checkBoxList = ArrayList<Boolean>()
     private val _checkBoxes = MutableLiveData<ArrayList<Boolean>>()
     val checkBoxes: LiveData<ArrayList<Boolean>> = _checkBoxes
     private val _curTermIndex = MutableLiveData<Int>()
     val curTermIndex : LiveData<Int> = _curTermIndex
 
-    private val _signUpResponse = MutableLiveData<ApiResult<JoinResponse>>()
-    val signUpResponse : LiveData<ApiResult<JoinResponse>> = _signUpResponse
+    // SingleLiveEvent
+    private val _intentFlag = MutableLiveData<SingleLiveEvent<String>>()
+    val intentFlag : LiveData<SingleLiveEvent<String>> = _intentFlag
 
     init{
         for (i in 0 .. 2){
@@ -59,20 +59,15 @@ class TermViewModel(
 
     fun signUp(id : String, pw : String, name : String){
         viewModelScope.launch {
-            signUp.invoke(id, pw, name, checkBoxList)
+            signUp(id, pw, name, checkBoxList)
                 .onSuccess {
-                    if (it.isSuccess){
-
-                    } else {
-                        if (it.responseCode == 2012){   // 닉네임 중복
-
-                        } else {
-                            Log.d("Join CheckNickName-RequestFail", it.result.toString())
-                        }
-                    }
+                    _intentFlag.value = SingleLiveEvent("complete")
                 }
-                .onError {
-                    Log.d("Join CheckNickName-NetworkError", it)
+                .onFail {code, msg ->
+                    when(code){
+                        2010 -> _intentFlag.value = SingleLiveEvent("request-error")
+                        2011 -> _intentFlag.value = SingleLiveEvent("request-email-valid-error")
+                    }
                 }
         }
     }
@@ -84,7 +79,7 @@ class TermViewModel(
                 modelClass: Class<T>, extras: CreationExtras
             ): T {
                 val userDataSource = BeeringApplication.retrofit.create(UserApi::class.java)
-                val signupUseCase = SignupUseCase(UserRepositoryImpl(userDataSource))
+                val signupUseCase = SignupUseCase(UserRepositoryImpl(userDataSource, TokenSpf()))
 
                 return TermViewModel(signupUseCase) as T
             }

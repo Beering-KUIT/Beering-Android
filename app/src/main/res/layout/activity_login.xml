@@ -198,7 +198,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:text="@string/term_join"
-            android:textColor="@color/c3"
+            android:textColor="@color/calendar3"
             android:fontFamily="@font/pretendard_semibold"
             android:layout_gravity="center"/>
 
