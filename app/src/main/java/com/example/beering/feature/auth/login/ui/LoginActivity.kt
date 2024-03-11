@@ -13,6 +13,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ import com.example.beering.util.changeLogin
 import com.example.beering.util.getRetrofit
 import com.example.beering.util.setMemberId
 import com.example.beering.util.setToken
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
@@ -42,6 +44,7 @@ import retrofit2.Response
 
 
 class LoginActivity : AppCompatActivity() {
+    private val loginViewModel : LoginViewModel by viewModels{ LoginViewModel.Factory }
     lateinit var binding: ActivityLoginBinding
 
     object Constants {

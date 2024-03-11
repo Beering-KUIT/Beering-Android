@@ -37,13 +37,14 @@ class TermActivity : BaseActivity<ActivityJoinTermBinding>(ActivityJoinTermBindi
             binding.termCheckFirstCb.isChecked = it[0]
             binding.termCheckSecondCb.isChecked = it[1]
             binding.termCheckThirdCb.isChecked = it[2]
-            if (it[0] && it[1] && it[2]){
+            binding.termCheckAllCb.isChecked = it[0] && it[1] && it[2]
+
+            if (it[0] && it[1]){
                 binding.termJoinOnIv.visibility = View.VISIBLE
-                binding.termCheckAllCb.isChecked = true
             } else {
                 binding.termJoinOnIv.visibility = View.GONE
-                binding.termCheckAllCb.isChecked = false
             }
+
         })
         termViewModel.intentFlag.observe(this, Observer {
             it.getContentIfNotHandled()?.let{msg ->

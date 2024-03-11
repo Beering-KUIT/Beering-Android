@@ -15,6 +15,7 @@ import com.example.beering.feature.MainActivity
 import com.example.beering.feature.auth.login.domain.LoginUseCase
 import com.example.beering.feature.auth.login.ui.LoginActivity
 import com.example.beering.util.base.BaseActivity
+import com.example.beering.util.changeLogin
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,6 +39,8 @@ class CompleteActivity : BaseActivity<ActivityJoinCompleteBinding>(ActivityJoinC
                 // UI를 업데이트합니다.
                 result
                     .onSuccess {
+                        login.saveTokens(it.jwtInfo.accessToken, it.jwtInfo.refreshToken)
+                        changeLogin(true)
                         val mIntent = Intent(this@CompleteActivity, MainActivity::class.java)
                         mIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
                         startActivity(mIntent)

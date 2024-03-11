@@ -15,6 +15,7 @@ import com.example.beering.data.onSuccess
 import com.example.beering.feature.auth.join.domain.UserValidationUseCase
 import com.example.beering.feature.auth.join.ui.JoinViewModel
 import com.example.beering.feature.auth.login.domain.LoginUseCase
+import com.example.beering.util.changeLogin
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
@@ -50,6 +51,7 @@ class LoginViewModel(
             login(id.value!!, pw.value!!)
                 .onSuccess {
                     login.saveTokens(it.jwtInfo.accessToken, it.jwtInfo.refreshToken)
+                    changeLogin(true)
                     _loginSuccess.value = SingleLiveEvent(true)
                 }
                 .onFail{code, msg ->
