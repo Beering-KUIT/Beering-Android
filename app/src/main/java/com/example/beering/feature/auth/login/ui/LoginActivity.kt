@@ -13,6 +13,7 @@ import android.view.KeyEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ import com.example.beering.util.changeLogin
 import com.example.beering.util.getRetrofit
 import com.example.beering.util.setMemberId
 import com.example.beering.util.setToken
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.snackbar.Snackbar
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
@@ -239,6 +241,33 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+//        binding.loginPasswordInvisibleIv.setOnClickListener {
+//            binding.loginPasswordEd.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+//            binding.loginPasswordInvisibleIv.visibility = View.INVISIBLE
+//            binding.loginPasswordVisibleIv.visibility = View.VISIBLE
+//        }
+//
+//        binding.loginPasswordVisibleIv.setOnClickListener {
+//            binding.loginPasswordEd.inputType =
+//                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+//            binding.loginPasswordInvisibleIv.visibility = View.VISIBLE
+//            binding.loginPasswordVisibleIv.visibility = View.INVISIBLE
+//        }
+
+
+        //객체 생성
+        val idEdit: EditText = binding.loginIdEd
+        val passwordEdit: EditText = binding.loginPasswordEd
+        val loginBtn: MaterialCardView = binding.loginBtnCv
+
+        //메시지 담을 변수
+        var id: String = ""
+        var password: String = ""
+
+
+        //버튼 비활성화
+//        loginBtn.isEnabled = false
+
         //EditText 값 있을때만 버튼 활성화
         binding.loginIdEd.addTextChangedListener(object : TextWatcher {
             // 입력 하기 전에 작동
@@ -300,6 +329,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
+
 
 
 

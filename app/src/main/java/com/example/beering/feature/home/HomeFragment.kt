@@ -31,6 +31,7 @@ class HomeFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+
         val recyclerView: RecyclerView = binding.itemHomeRv
 
         var homeService:ReviewsApiService? = null

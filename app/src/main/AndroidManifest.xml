@@ -37,6 +37,8 @@
         <activity android:name=".feature.search.SearchFilterActivity" />
         <activity android:name=".feature.auth.join.ui.JoinActivity"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".feature.auth.join.ui.JoinKakaoActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".feature.auth.join.ui.TermActivity"/>
         <activity android:name=".feature.auth.join.ui.CompleteActivity"/>
         <activity android:name=".feature.auth.login.ui.LoginActivity" />

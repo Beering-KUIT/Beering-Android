@@ -48,6 +48,8 @@ class JoinViewModel(
     private val _snackBarEvent = MutableLiveData<SingleLiveEvent<String>>()
     val snackBarEvent : LiveData<SingleLiveEvent<String>> = _snackBarEvent
 
+    var isKakao : Boolean
+
     init{
         _userId.value = ""
         _password.value = ""
@@ -55,6 +57,7 @@ class JoinViewModel(
         _name.value = ""
         _idCheck.value = DuplicationCheck.PROCEEDING
         _nicknameCheck.value = DuplicationCheck.PROCEEDING
+        isKakao = false
     }
     fun setUserId(id : String){
         _userId.value = id
@@ -81,6 +84,10 @@ class JoinViewModel(
         validNext()
     }
 
+    fun setIsKakako(isKakao : Boolean){
+        this.isKakao = isKakao
+    }
+
     fun validNext(){
         if (pwValidation.value == null){
             return
@@ -93,9 +100,29 @@ class JoinViewModel(
                 && pwValidation.value!!.isConfirmed
                 && nicknameCheck.value == DuplicationCheck.CHECKED
                 && idCheck.value == DuplicationCheck.CHECKED)
+        if(isKakao){
+            validNextKakao()
+        } else {
+            if (pwValidation.value == null) {
+                return
+            }
+            _validNext.value = (pwValidation.value!!.valid
+                    && pwValidation.value!!.isConfirmed
+                    && nicknameCheck.value == DuplicationCheck.CHECKED
+                    && idCheck.value == DuplicationCheck.CHECKED)
+
+        }
+    }
+
+
+
+
+    fun validNextKakao(){
+        _validNext.value = (nicknameCheck.value == DuplicationCheck.CHECKED)
     }
 
     fun checkId(){
+        // TODO : 이메일 형식인지 정규식 확인
         val cleanEmail = userId.value!!.trim()
         Log.d("userId", cleanEmail)
         viewModelScope.launch {
@@ -120,6 +147,7 @@ class JoinViewModel(
     }
 
     fun checkNickname(){
+        // TODO : 이름 형식 안맞으면 활성화 x 되게
         viewModelScope.launch {
             validation.checkNickname(name.value!!)
                 .onSuccess {

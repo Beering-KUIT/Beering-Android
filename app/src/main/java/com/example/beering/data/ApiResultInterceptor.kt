@@ -15,7 +15,7 @@ import org.json.JSONObject
 
 class ApiResultInterceptor(val context : Context) : Interceptor {
 
-    // TODO : 나중에 다시 적용
+    // TODO : 나중에 다시 적용`
 override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
